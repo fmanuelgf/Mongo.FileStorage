@@ -4,6 +4,16 @@ Library to store files using MongoDB
 
 [MIT License](LICENSE)
 
+## Needed environment variables
+
+- `"MONGODB_CONNECTION_STRING"` (e.g., "mongodb://root:root@localhost:27017")
+
+- `"DATABASE"` (e.g., "my_blob_storage")
+
+- `"BUCKET_NAME"` (e.g., "my_bucket")
+
+- `"CHUNK_SIZE_BYTES"` (e.g., "261120")
+
 ## Interface:
 
 ```
