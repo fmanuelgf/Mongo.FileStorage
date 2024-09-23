@@ -20,17 +20,18 @@ namespace MongoDB.BlobStorage.Tests.Repositories
         {
             // Arrange
             // Act
-            var response = await this.UploadFileAsync("image01.png");
+            var fileId = await this.CreateAndUploadFileAsync("image01.png");
 
             // Assert
-            Assert.That(response, Is.InstanceOf<ObjectId>());
+            Assert.That(fileId, Is.InstanceOf<ObjectId>());
+            Assert.That(fileId.Timestamp, Is.GreaterThan(0));
         }
 
         [Test]
         public async Task CanDownloadAFileByIdAsync()
         {
             // Arrange
-            var fileId = await this.UploadFileAsync("image02.png");
+            var fileId = await this.CreateAndUploadFileAsync("image02.png");
             
             // Act
             var file = await this.blobStorageRepository.DownloadAsync(fileId);
@@ -46,7 +47,7 @@ namespace MongoDB.BlobStorage.Tests.Repositories
         {
             // Arrange
             var fileName = "image03.png";
-            await this.UploadFileAsync(fileName);
+            await this.CreateAndUploadFileAsync(fileName);
             
             // Act
             var file = await this.blobStorageRepository.DownloadAsync(fileName);
@@ -61,7 +62,7 @@ namespace MongoDB.BlobStorage.Tests.Repositories
         {
             // Arrange
             var fileName = "image04.png";
-            var fileId = await this.UploadFileAsync(fileName);
+            var fileId = await this.CreateAndUploadFileAsync(fileName);
             
             // Act
             var file = await this.blobStorageRepository.GetAsync(fileId);
@@ -78,7 +79,7 @@ namespace MongoDB.BlobStorage.Tests.Repositories
         {
             // Arrange
             var fileName = "image05.png";
-            var fileId = await this.UploadFileAsync(fileName);
+            var fileId = await this.CreateAndUploadFileAsync(fileName);
             
             // Act
             var file = await this.blobStorageRepository.GetAsync(fileName);
@@ -94,7 +95,7 @@ namespace MongoDB.BlobStorage.Tests.Repositories
         public async Task CanDeleteAFileAsync()
         {
             // Arrange
-            var fileId = await this.UploadFileAsync("image06.png");
+            var fileId = await this.CreateAndUploadFileAsync("image06.png");
 
             // Act
             await this.blobStorageRepository.DeleteAsync(fileId);
@@ -111,7 +112,7 @@ namespace MongoDB.BlobStorage.Tests.Repositories
             client.DropDatabase(AppConfig.DatabaseName);
         }
 
-        private async Task<ObjectId> UploadFileAsync(string fileName)
+        private async Task<ObjectId> CreateAndUploadFileAsync(string fileName)
         {
             var filePath = $"TestFiles/{fileName}";
             File.Copy($"TestFiles/Robby-Robot.jpg", filePath);
