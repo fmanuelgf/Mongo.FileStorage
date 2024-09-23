@@ -1,6 +1,6 @@
-# MongoDB.BlobStorage
+# Mongo.BlobStorage
 
-Library to store files using [MongoDB](https://www.mongodb.com)
+Library to store files using [MongoDB](https://www.Mongo.com)
 
 [MIT License](LICENSE)
 
@@ -21,7 +21,7 @@ Library to store files using [MongoDB](https://www.mongodb.com)
 ## Interface
 
 ```
-namespace MongoDB.BlobStorage.Repositories
+namespace Mongo.BlobStorage.Repositories
 {
     using MongoDB.Bson;
     using MongoDB.Driver.GridFS;

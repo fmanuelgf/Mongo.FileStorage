@@ -1,4 +1,4 @@
-namespace MongoDB.BlobStorage.Tests
+namespace Mongo.BlobStorage.Tests
 {
     using System;
 

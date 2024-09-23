@@ -1,4 +1,4 @@
-namespace MongoDB.BlobStorage.Repositories
+namespace Mongo.BlobStorage.Repositories
 {
     using MongoDB.Bson;
     using MongoDB.Driver.GridFS;

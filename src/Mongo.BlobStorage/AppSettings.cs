@@ -1,4 +1,4 @@
-namespace MongoDB.BlobStorage
+namespace Mongo.BlobStorage
 {
     public static class AppConfig
     {

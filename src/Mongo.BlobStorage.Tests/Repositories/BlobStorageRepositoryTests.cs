@@ -1,6 +1,6 @@
-namespace MongoDB.BlobStorage.Tests.Repositories
+namespace Mongo.BlobStorage.Tests.Repositories
 {
-    using MongoDB.BlobStorage.Repositories;
+    using Mongo.BlobStorage.Repositories;
     using MongoDB.Bson;
     using MongoDB.Driver;
     using MongoDB.Driver.GridFS;

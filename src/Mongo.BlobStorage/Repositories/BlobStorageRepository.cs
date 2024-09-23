@@ -1,6 +1,6 @@
-﻿namespace MongoDB.BlobStorage.Repositories
+﻿namespace Mongo.BlobStorage.Repositories
 {
-    using MongoDB.BlobStorage;
+    using Mongo.BlobStorage;
     using MongoDB.Bson;
     using MongoDB.Driver;
     using MongoDB.Driver.GridFS;
