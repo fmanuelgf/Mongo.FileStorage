@@ -28,32 +28,28 @@
             return await this.bucket.UploadFromStreamAsync(filename: fileName, source: fileStream);
         }
 
-        public async Task<MemoryStream> DownloadAsync(ObjectId fileId)
+        public async Task<MemoryStream> DownloadAsync(string idOrName)
         {
             var stream = new MemoryStream();
-            await this.bucket.DownloadToStreamAsync(fileId, stream);
+            if (ObjectId.TryParse(idOrName, out var fileId))
+            {
+                await this.bucket.DownloadToStreamAsync(fileId, stream);
+            }
+            else
+            {
+                await this.bucket.DownloadToStreamByNameAsync(idOrName, stream);
+            }
+            
             return stream;
         }
 
-        public async Task<MemoryStream> DownloadAsync(string fileName)
+        public async Task<GridFSFileInfo<ObjectId>> GetAsync(string idOrName)
         {
             var stream = new MemoryStream();
-            await this.bucket.DownloadToStreamByNameAsync(fileName, stream);
-            return stream;
-        }
-
-        public async Task<GridFSFileInfo<ObjectId>> GetAsync(ObjectId fileId)
-        {
-            var stream = new MemoryStream();
-            var filter = Builders<GridFSFileInfo<ObjectId>>.Filter.Eq(x => x.Id, fileId);
-            var cursor = await this.bucket.FindAsync(filter);
-            return cursor.FirstOrDefault();
-        }
-
-        public async Task<GridFSFileInfo> GetAsync(string fileName)
-        {
-            var stream = new MemoryStream();
-            var filter = Builders<GridFSFileInfo>.Filter.Eq(x => x.Filename, fileName);
+            var filter = ObjectId.TryParse(idOrName, out var fileId)
+                ? Builders<GridFSFileInfo<ObjectId>>.Filter.Eq(x => x.Id, fileId)
+                : Builders<GridFSFileInfo<ObjectId>>.Filter.Eq(x => x.Filename, idOrName);
+            
             var cursor = await this.bucket.FindAsync(filter);
             return cursor.FirstOrDefault();
         }

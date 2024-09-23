@@ -34,7 +34,7 @@ namespace MongoDB.BlobStorage.Tests.Repositories
             var fileId = await this.CreateAndUploadFileAsync("image02.png");
             
             // Act
-            var file = await this.blobStorageRepository.DownloadAsync(fileId);
+            var file = await this.blobStorageRepository.DownloadAsync(fileId.ToString());
 
             // Assert
             Assert.That(file, Is.Not.Null);
@@ -65,7 +65,7 @@ namespace MongoDB.BlobStorage.Tests.Repositories
             var fileId = await this.CreateAndUploadFileAsync(fileName);
             
             // Act
-            var file = await this.blobStorageRepository.GetAsync(fileId);
+            var file = await this.blobStorageRepository.GetAsync(fileId.ToString());
 
             // Assert
             Assert.That(file, Is.Not.Null);
@@ -102,7 +102,7 @@ namespace MongoDB.BlobStorage.Tests.Repositories
 
             // Assert
             Assert.ThrowsAsync<GridFSFileNotFoundException>(async () =>
-                await this.blobStorageRepository.DownloadAsync(fileId)
+                await this.blobStorageRepository.DownloadAsync(fileId.ToString())
             );
         }
 

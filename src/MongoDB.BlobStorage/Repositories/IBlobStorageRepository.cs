@@ -7,13 +7,9 @@ namespace MongoDB.BlobStorage.Repositories
     {
         Task<ObjectId> UploadAsync(FileStream fileStream);
 
-        Task<MemoryStream> DownloadAsync(ObjectId fileId);
+        Task<MemoryStream> DownloadAsync(string idOrName);
 
-        Task<MemoryStream> DownloadAsync(string fileName);
-
-        Task<GridFSFileInfo<ObjectId>> GetAsync(ObjectId fileId);
-
-        Task<GridFSFileInfo> GetAsync(string fileName);
+        Task<GridFSFileInfo<ObjectId>> GetAsync(string idOrName);
 
         Task DeleteAsync(ObjectId fileId);
     }

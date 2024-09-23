@@ -4,7 +4,9 @@ Library to store files using [MongoDB](https://www.mongodb.com)
 
 [MIT License](LICENSE)
 
-## Required environment variables
+<hr>
+
+##  Required environment variables
 
 - `"MONGODB_CONNECTION_STRING"` (e.g., "mongodb://root:root@localhost:27017")
 
@@ -14,7 +16,9 @@ Library to store files using [MongoDB](https://www.mongodb.com)
 
 - `"CHUNK_SIZE_BYTES"` (e.g., "261120")
 
-## Interface:
+<hr>
+
+## Interface
 
 ```
 namespace MongoDB.BlobStorage.Repositories
@@ -26,20 +30,18 @@ namespace MongoDB.BlobStorage.Repositories
     {
         Task<ObjectId> UploadAsync(FileStream fileStream);
 
-        Task<MemoryStream> DownloadAsync(ObjectId fileId);
+        Task<MemoryStream> DownloadAsync(string idOrName);
 
-        Task<MemoryStream> DownloadAsync(string fileName);
-
-        Task<GridFSFileInfo<ObjectId>> GetAsync(ObjectId fileId);
-
-        Task<GridFSFileInfo> GetAsync(string fileName);
+        Task<GridFSFileInfo<ObjectId>> GetAsync(string idOrName);
 
         Task DeleteAsync(ObjectId fileId);
     }
 }
 ```
 
-## Usage:
+<hr>
+
+## Usage
 
 ### 1) To upload a file
 
@@ -50,26 +52,14 @@ var fileId = await this.blobStorageRepository.UploadAsync(fs);
 
 ### 2) To download a file
 
-<span> By ID: </span>
 ```
-MemoryStream file = await this.blobStorageRepository.DownloadAsync(fileId);
-```
-
-<span> By Name: </span>
-```
-MemoryStream file = await this.blobStorageRepository.DownloadAsync(fileName);
+MemoryStream file = await this.blobStorageRepository.DownloadAsync(idOrName);
 ```
 
 ### 3) To get a file
 
-<span> By ID: </span>
 ```
-GridFSFileInfo<ObjectId> file = await this.blobStorageRepository.GetAsync(fileId);
-```
-
-<span> By Name: </span>
-```
-GridFSFileInfo file = await this.blobStorageRepository.GetAsync(fileName);
+GridFSFileInfo file = await this.blobStorageRepository.GetAsync(idOrName);
 ```
 
 ### 4) To delete a file
@@ -78,7 +68,9 @@ GridFSFileInfo file = await this.blobStorageRepository.GetAsync(fileName);
 await this.blobStorageRepository.DeleteAsync(fileId);
 ````
 
-## <b>Note</b>
+<hr>
+
+## Note
 
 - In order to run the tests, you must first run `docker compose up -d`.
 
