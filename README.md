@@ -69,7 +69,7 @@ GridFSFileInfo<ObjectId> file = await this.blobStorageRepository.GetAsync(fileId
 
 <span> By Name: </span>
 ```
-GridFSFileInfo<ObjectId> file = await this.blobStorageRepository.GetAsync(fileName);
+GridFSFileInfo file = await this.blobStorageRepository.GetAsync(fileName);
 ```
 
 ### 4) To delete a file
