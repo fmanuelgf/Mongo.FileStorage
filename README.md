@@ -1,6 +1,6 @@
 # MongoDB.BlobStorage
 
-Library to store files using MongoDB
+Library to store files using [MongoDB](https://www.mongodb.com)
 
 [MIT License](LICENSE)
 
