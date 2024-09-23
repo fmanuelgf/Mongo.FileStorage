@@ -59,7 +59,7 @@ MemoryStream file = await this.blobStorageRepository.DownloadAsync(idOrName);
 ### 3) To get a file
 
 ```
-GridFSFileInfo file = await this.blobStorageRepository.GetAsync(idOrName);
+GridFSFileInfo<ObjectId> file = await this.blobStorageRepository.GetAsync(idOrName);
 ```
 
 ### 4) To delete a file
