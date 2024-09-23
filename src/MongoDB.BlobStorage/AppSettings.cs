@@ -5,7 +5,7 @@ namespace MongoDB.BlobStorage
         public static string ConnectionString => Environment.GetEnvironmentVariable("MONGODB_CONNECTION_STRING")
             ?? string.Empty;
 
-        public static string DatabaseName => Environment.GetEnvironmentVariable("DATABASE")
+        public static string DatabaseName => Environment.GetEnvironmentVariable("MONGODB_DATABASE_NAME")
             ?? "blob_storage_db";
         
         public static string BucketName => Environment.GetEnvironmentVariable("BUCKET_NAME")

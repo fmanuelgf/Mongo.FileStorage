@@ -8,7 +8,7 @@ Library to store files using MongoDB
 
 - `"MONGODB_CONNECTION_STRING"` (e.g., "mongodb://root:root@localhost:27017")
 
-- `"DATABASE"` (e.g., "my_blob_storage")
+- `"MONGODB_DATABASE_NAME"` (e.g., "my_blob_storage")
 
 - `"BUCKET_NAME"` (e.g., "my_bucket")
 
