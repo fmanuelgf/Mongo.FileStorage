@@ -1,0 +1,13 @@
+<Project>
+  <!-- See https://aka.ms/dotnet/msbuild/customize for more details on customizing your build -->
+  <PropertyGroup>
+    <Target-Framework-Version>net8.0</Target-Framework-Version>
+    <MongoDB-Driver>2.29.*</MongoDB-Driver>
+    <MongoDB-Driver-GridFS>2.29.*</MongoDB-Driver-GridFS>
+    <Coverlet-Collector>6.0.*</Coverlet-Collector>
+    <Microsoft-NET-Test-Sdk>17.8.*</Microsoft-NET-Test-Sdk>
+    <NUnit>3.14.*</NUnit>
+    <NUnit-Analyzers>3.9.*</NUnit-Analyzers>
+    <NUnit3TestAdapter>4.5.*</NUnit3TestAdapter>
+  </PropertyGroup>
+</Project>

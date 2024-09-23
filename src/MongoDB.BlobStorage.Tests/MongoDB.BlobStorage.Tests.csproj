@@ -1,0 +1,34 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+
+    <IsPackable>false</IsPackable>
+    <IsTestProject>true</IsTestProject>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="coverlet.collector" Version="$(Coverlet-Collector)" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="$(Microsoft-NET-Test-Sdk)" />
+    <PackageReference Include="NUnit" Version="$(NUnit)" />
+    <PackageReference Include="NUnit.Analyzers" Version="$(NUnit-Analyzers)" />
+    <PackageReference Include="NUnit3TestAdapter" Version="$(NUnit3TestAdapter)" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="NUnit.Framework" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\MongoDB.BlobStorage\MongoDB.BlobStorage.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="TestFiles\**">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+</Project>
