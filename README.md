@@ -4,7 +4,7 @@ Library to store files using [MongoDB](https://www.mongodb.com)
 
 [MIT License](LICENSE)
 
-## Needed environment variables
+## Required environment variables
 
 - `"MONGODB_CONNECTION_STRING"` (e.g., "mongodb://root:root@localhost:27017")
 
@@ -77,3 +77,11 @@ GridFSFileInfo<ObjectId> file = await this.blobStorageRepository.GetAsync(fileNa
 ```
 await this.blobStorageRepository.DeleteAsync(fileId);
 ````
+
+## <b>Note</b>
+
+- In order to run the tests, you must first run `docker compose up -d`.
+
+- You can then manage the database at [http://localhost:8081](http://localhost:8081), with:
+    - User: user
+    - Password: pwd
