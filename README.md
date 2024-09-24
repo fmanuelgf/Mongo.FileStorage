@@ -20,7 +20,7 @@ Library to store files using [MongoDB](https://www.Mongo.com)
 
 ## Interface
 
-```
+```C#
 namespace Mongo.BlobStorage.Repositories
 {
     using MongoDB.Bson;
@@ -45,26 +45,26 @@ namespace Mongo.BlobStorage.Repositories
 
 ### 1) To upload a file
 
-```
+```C#
 var fs = File.OpenRead(filePath);
 var fileId = await this.blobStorageRepository.UploadAsync(fs);
 ```
 
 ### 2) To download a file
 
-```
+```C#
 MemoryStream file = await this.blobStorageRepository.DownloadAsync(idOrName);
 ```
 
 ### 3) To get a file
 
-```
+```C#
 GridFSFileInfo<ObjectId> file = await this.blobStorageRepository.GetAsync(idOrName);
 ```
 
 ### 4) To delete a file
 
-```
+```C#
 await this.blobStorageRepository.DeleteAsync(fileId);
 ````
 
