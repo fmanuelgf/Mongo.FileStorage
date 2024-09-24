@@ -63,8 +63,6 @@ To delete a file
 await this.blobStorageRepository.DeleteAsync(fileId);
 ````
 
-<hr>
-
 ## Note
 
 - In order to run the tests, you must first run `docker compose up -d`.
