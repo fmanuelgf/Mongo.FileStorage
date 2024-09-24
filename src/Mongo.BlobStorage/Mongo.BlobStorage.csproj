@@ -8,6 +8,7 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageOutputPath>../package</PackageOutputPath>
     <PackageId>$(ProjectName)</PackageId>
+    <Authors>Francisco González</Authors>
     <Version>$([System.DateTime]::Now.Year).1.0</Version>
   </PropertyGroup>
 
