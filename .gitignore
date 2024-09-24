@@ -234,4 +234,4 @@ _Pvt_Extensions
 
 # Others
 .DS_Store
-*.nupkg
+**/package/*

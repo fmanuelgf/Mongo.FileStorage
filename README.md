@@ -2,9 +2,7 @@
 
 Library to store files using [MongoDB](https://www.Mongo.com)
 
-[MIT License](LICENSE)
-
-<hr>
+Source code: [https://github.com/fmanuelgf/Mongo.BlobStorage](https://github.com/fmanuelgf/Mongo.BlobStorage)
 
 ##  Required environment variables
 
@@ -16,7 +14,6 @@ Library to store files using [MongoDB](https://www.Mongo.com)
 
 - `"CHUNK_SIZE_BYTES"` (e.g., "261120")
 
-<hr>
 
 ## Interface
 
@@ -39,30 +36,28 @@ namespace Mongo.BlobStorage.Repositories
 }
 ```
 
-<hr>
-
 ## Usage
 
-### 1) To upload a file
+To upload a file
 
 ```C#
 var fs = File.OpenRead(filePath);
 var fileId = await this.blobStorageRepository.UploadAsync(fs);
 ```
 
-### 2) To download a file
+To download a file
 
 ```C#
 MemoryStream file = await this.blobStorageRepository.DownloadAsync(idOrName);
 ```
 
-### 3) To get a file
+To get a file
 
 ```C#
 GridFSFileInfo<ObjectId> file = await this.blobStorageRepository.GetAsync(idOrName);
 ```
 
-### 4) To delete a file
+To delete a file
 
 ```C#
 await this.blobStorageRepository.DeleteAsync(fileId);
