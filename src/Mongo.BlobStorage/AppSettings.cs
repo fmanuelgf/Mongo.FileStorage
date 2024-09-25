@@ -13,6 +13,6 @@ namespace Mongo.BlobStorage
         
         public static int ChunkSizeBytes => int.TryParse(Environment.GetEnvironmentVariable("CHUNK_SIZE_BYTES"), out int result)
             ? result
-            : 255; //255 MB is the default value;
+            : 32 * 1024; // 32 MB;
     }
 }

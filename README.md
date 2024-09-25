@@ -12,7 +12,7 @@ Source code: [https://github.com/fmanuelgf/Mongo.BlobStorage](https://github.com
 
 - `"BUCKET_NAME"` (e.g., "my_bucket")
 
-- `"CHUNK_SIZE_BYTES"` (e.g., "261120")
+- `"CHUNK_SIZE_BYTES"` (default: 32768)
 
 
 ## Interface
