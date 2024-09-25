@@ -40,6 +40,7 @@
                 await this.bucket.DownloadToStreamByNameAsync(idOrName, stream);
             }
             
+            stream.Position = 0;
             return stream;
         }
 
