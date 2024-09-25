@@ -52,10 +52,6 @@ namespace Mongo.BlobStorage.Tests.Repositories
             // Act
             var file = await this.blobStorageRepository.DownloadAsync(fileName);
 
-            var buffer = new byte[file.Length];
-            file.Read(buffer, 0, buffer.Length);
-            File.WriteAllBytes("aaa.jpg", buffer);
-
             // Assert
             Assert.That(file, Is.Not.Null);
             Assert.That(file.Length, Is.GreaterThan(0));
