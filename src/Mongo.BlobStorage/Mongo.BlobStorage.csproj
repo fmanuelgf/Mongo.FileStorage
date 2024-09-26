@@ -10,6 +10,10 @@
     <PackageId>$(ProjectName)</PackageId>
     <Authors>Francisco González</Authors>
     <Version>$(Package-Version)</Version>
+    <Description>
+      Library to store files using MongoDB.
+      Source code: https://github.com/fmanuelgf/Mongo.BlobStorage
+    </Description>
   </PropertyGroup>
 
   <ItemGroup>

@@ -2,7 +2,6 @@
 
 Library to store files using [MongoDB](https://www.Mongo.com)
 
-Source code: [https://github.com/fmanuelgf/Mongo.BlobStorage](https://github.com/fmanuelgf/Mongo.BlobStorage)
 
 ##  Required environment variables
 
@@ -36,6 +35,7 @@ namespace Mongo.BlobStorage.Repositories
 }
 ```
 
+
 ## Usage
 
 To upload a file
@@ -62,6 +62,7 @@ To delete a file
 ```C#
 await this.blobStorageRepository.DeleteAsync(fileId);
 ````
+
 
 ## Note
 
