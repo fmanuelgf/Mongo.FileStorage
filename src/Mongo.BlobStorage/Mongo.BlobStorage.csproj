@@ -14,11 +14,17 @@
       Library to store files using MongoDB.
       Source code: https://github.com/fmanuelgf/Mongo.BlobStorage
     </Description>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="MongoDB.Driver" Version="$(MongoDB-Driver)" />
     <PackageReference Include="MongoDB.Driver.GridFS" Version="$(MongoDB-Driver-GridFS)" />
   </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\README.md" Pack="true" PackagePath="\"/>
+</ItemGroup>
 
 </Project>
