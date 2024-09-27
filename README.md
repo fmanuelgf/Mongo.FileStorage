@@ -1,4 +1,4 @@
-# Mongo.BlobStorage
+# Mongo.FileStorage
 
 Library to store files using [MongoDB](https://www.Mongo.com)
 
@@ -7,9 +7,9 @@ Library to store files using [MongoDB](https://www.Mongo.com)
 
 - `"MONGODB_CONNECTION_STRING"` (e.g., "mongodb://root:root@localhost:27017")
 
-- `"MONGODB_DATABASE_NAME"` (e.g., "my_blob_storage")
+- `"MONGODB_DATABASE_NAME"` (default: "files_db")
 
-- `"BUCKET_NAME"` (e.g., "my_bucket")
+- `"BUCKET_NAME"` (default: "files_bucket")
 
 - `"CHUNK_SIZE_BYTES"` (default: 32768)
 
@@ -17,12 +17,12 @@ Library to store files using [MongoDB](https://www.Mongo.com)
 ## Interface
 
 ```C#
-namespace Mongo.BlobStorage.Repositories
+namespace Mongo.FileStorage.Repositories
 {
     using MongoDB.Bson;
     using MongoDB.Driver.GridFS;
 
-    public interface IBlobStorageRepository
+    public interface IFileStorageRepository
     {
         Task<ObjectId> UploadAsync(FileStream fileStream);
 
@@ -42,25 +42,25 @@ To upload a file
 
 ```C#
 var fs = File.OpenRead(filePath);
-var fileId = await this.blobStorageRepository.UploadAsync(fs);
+var fileId = await this.fileStorageRepository.UploadAsync(fs);
 ```
 
 To download a file
 
 ```C#
-MemoryStream file = await this.blobStorageRepository.DownloadAsync(idOrName);
+MemoryStream file = await this.fileStorageRepository.DownloadAsync(idOrName);
 ```
 
 To get a file
 
 ```C#
-GridFSFileInfo<ObjectId> file = await this.blobStorageRepository.GetAsync(idOrName);
+GridFSFileInfo<ObjectId> file = await this.fileStorageRepository.GetAsync(idOrName);
 ```
 
 To delete a file
 
 ```C#
-await this.blobStorageRepository.DeleteAsync(fileId);
+await this.fileStorageRepository.DeleteAsync(fileId);
 ````
 
 

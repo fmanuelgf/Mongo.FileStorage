@@ -1,9 +1,9 @@
-namespace Mongo.BlobStorage.Repositories
+namespace Mongo.FileStorage.Repositories
 {
     using MongoDB.Bson;
     using MongoDB.Driver.GridFS;
 
-    public interface IBlobStorageRepository
+    public interface IFileStorageRepository
     {
         Task<ObjectId> UploadAsync(FileStream fileStream);
 

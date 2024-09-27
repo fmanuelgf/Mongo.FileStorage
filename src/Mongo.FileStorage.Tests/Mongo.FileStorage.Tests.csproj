@@ -22,7 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Mongo.BlobStorage\Mongo.BlobStorage.csproj" />
+    <ProjectReference Include="..\Mongo.FileStorage\Mongo.FileStorage.csproj" />
   </ItemGroup>
 
   <ItemGroup>

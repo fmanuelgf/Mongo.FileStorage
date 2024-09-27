@@ -1,18 +1,18 @@
-namespace Mongo.BlobStorage.Tests.Repositories
+namespace Mongo.FileStorage.Tests.Repositories
 {
-    using Mongo.BlobStorage.Repositories;
+    using Mongo.FileStorage.Repositories;
     using MongoDB.Bson;
     using MongoDB.Driver;
     using MongoDB.Driver.GridFS;
 
-    public class BlobStorageRepositoryTests : IDisposable
+    public class FileStorageRepositoryTests : IDisposable
     {
-        private readonly IBlobStorageRepository blobStorageRepository;
+        private readonly IFileStorageRepository fileStorageRepository;
 
-        public BlobStorageRepositoryTests()
+        public FileStorageRepositoryTests()
         {
             TestConfig.Configure();
-            this.blobStorageRepository = new BlobStorageRepository();
+            this.fileStorageRepository = new FileStorageRepository();
         }
         
         [Test]
@@ -34,7 +34,7 @@ namespace Mongo.BlobStorage.Tests.Repositories
             var fileId = await this.CreateAndUploadFileAsync("image02.jpg");
             
             // Act
-            var file = await this.blobStorageRepository.DownloadAsync(fileId.ToString());
+            var file = await this.fileStorageRepository.DownloadAsync(fileId.ToString());
 
             // Assert
             Assert.That(file, Is.Not.Null);
@@ -50,7 +50,7 @@ namespace Mongo.BlobStorage.Tests.Repositories
             await this.CreateAndUploadFileAsync(fileName);
             
             // Act
-            var file = await this.blobStorageRepository.DownloadAsync(fileName);
+            var file = await this.fileStorageRepository.DownloadAsync(fileName);
 
             // Assert
             Assert.That(file, Is.Not.Null);
@@ -65,7 +65,7 @@ namespace Mongo.BlobStorage.Tests.Repositories
             var fileId = await this.CreateAndUploadFileAsync(fileName);
             
             // Act
-            var file = await this.blobStorageRepository.GetAsync(fileId.ToString());
+            var file = await this.fileStorageRepository.GetAsync(fileId.ToString());
 
             // Assert
             Assert.That(file, Is.Not.Null);
@@ -82,7 +82,7 @@ namespace Mongo.BlobStorage.Tests.Repositories
             var fileId = await this.CreateAndUploadFileAsync(fileName);
             
             // Act
-            var file = await this.blobStorageRepository.GetAsync(fileName);
+            var file = await this.fileStorageRepository.GetAsync(fileName);
 
             // Assert
             Assert.That(file, Is.Not.Null);
@@ -98,11 +98,11 @@ namespace Mongo.BlobStorage.Tests.Repositories
             var fileId = await this.CreateAndUploadFileAsync("image06.jpg");
 
             // Act
-            await this.blobStorageRepository.DeleteAsync(fileId);
+            await this.fileStorageRepository.DeleteAsync(fileId);
 
             // Assert
             Assert.ThrowsAsync<GridFSFileNotFoundException>(async () =>
-                await this.blobStorageRepository.DownloadAsync(fileId.ToString())
+                await this.fileStorageRepository.DownloadAsync(fileId.ToString())
             );
         }
 
@@ -118,7 +118,7 @@ namespace Mongo.BlobStorage.Tests.Repositories
             File.Copy($"TestFiles/Robby-Robot.jpg", filePath);
             
             var fs = File.OpenRead(filePath);
-            var fileId = await this.blobStorageRepository.UploadAsync(fs);
+            var fileId = await this.fileStorageRepository.UploadAsync(fs);
             File.Delete(filePath);
             
             return fileId;

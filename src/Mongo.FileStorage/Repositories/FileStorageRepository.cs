@@ -1,15 +1,15 @@
-﻿namespace Mongo.BlobStorage.Repositories
+﻿namespace Mongo.FileStorage.Repositories
 {
-    using Mongo.BlobStorage;
+    using Mongo.FileStorage;
     using MongoDB.Bson;
     using MongoDB.Driver;
     using MongoDB.Driver.GridFS;
 
-    public class BlobStorageRepository : IBlobStorageRepository
+    public class FileStorageRepository : IFileStorageRepository
     {
         private readonly GridFSBucket bucket;
         
-        public BlobStorageRepository()
+        public FileStorageRepository()
         {
             var client = new MongoClient(AppConfig.ConnectionString);
             var database = client.GetDatabase(AppConfig.DatabaseName);

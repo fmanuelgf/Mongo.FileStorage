@@ -1,4 +1,4 @@
-namespace Mongo.BlobStorage
+namespace Mongo.FileStorage
 {
     public static class AppConfig
     {
@@ -6,10 +6,10 @@ namespace Mongo.BlobStorage
             ?? string.Empty;
 
         public static string DatabaseName => Environment.GetEnvironmentVariable("MONGODB_DATABASE_NAME")
-            ?? "blob_storage_db";
+            ?? "files_db";
         
         public static string BucketName => Environment.GetEnvironmentVariable("BUCKET_NAME")
-            ?? "blob_storage_bucket";
+            ?? "files_bucket";
         
         public static int ChunkSizeBytes => int.TryParse(Environment.GetEnvironmentVariable("CHUNK_SIZE_BYTES"), out int result)
             ? result
