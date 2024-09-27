@@ -12,10 +12,11 @@
     <Version>$(Package-Version)</Version>
     <Description>
       Library to store files using MongoDB.
-      Source code: https://github.com/fmanuelgf/Mongo.FileStorage
     </Description>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <RepositoryUrl>https://github.com/fmanuelgf/Mongo.FileStorage</RepositoryUrl> 
+    <RepositoryType>git</RepositoryType> 
   </PropertyGroup>
 
   <ItemGroup>
