@@ -1,6 +1,7 @@
 namespace Mongo.FileStorage.Tests.Repositories
 {
     using Mongo.FileStorage.Repositories;
+    using Mongo.FileStorage.Tests.IoC;
     using MongoDB.Bson;
     using MongoDB.Driver;
     using MongoDB.Driver.GridFS;
@@ -12,7 +13,9 @@ namespace Mongo.FileStorage.Tests.Repositories
         public FileStorageRepositoryTests()
         {
             TestConfig.Configure();
-            this.fileStorageRepository = new FileStorageRepository();
+            Dependencies.Configure();
+            
+            this.fileStorageRepository = Dependencies.GetRequiredService<IFileStorageRepository>();
         }
         
         [Test]

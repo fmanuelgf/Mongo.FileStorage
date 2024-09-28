@@ -2,8 +2,7 @@
 
 Library to store files using [MongoDB](https://www.Mongo.com)
 
-
-##  Required environment variables
+## Required environment variables
 
 - `"MONGODB_CONNECTION_STRING"` (e.g., "mongodb://root:root@localhost:27017")
 
@@ -12,7 +11,6 @@ Library to store files using [MongoDB](https://www.Mongo.com)
 - `"BUCKET_NAME"` (default: "files_bucket")
 
 - `"CHUNK_SIZE_BYTES"` (default: 32768)
-
 
 ## Interface
 
@@ -35,10 +33,11 @@ namespace Mongo.FileStorage.Repositories
 }
 ```
 
-
 ## Usage
 
 To upload a file
+
+_Example:_
 
 ```C#
 var fs = File.OpenRead(filePath);
@@ -47,11 +46,15 @@ var fileId = await this.fileStorageRepository.UploadAsync(fs);
 
 To download a file
 
+_Example:_
+
 ```C#
 MemoryStream file = await this.fileStorageRepository.DownloadAsync(idOrName);
 ```
 
 To get a file
+
+_Example:_
 
 ```C#
 GridFSFileInfo<ObjectId> file = await this.fileStorageRepository.GetAsync(idOrName);
@@ -59,10 +62,21 @@ GridFSFileInfo<ObjectId> file = await this.fileStorageRepository.GetAsync(idOrNa
 
 To delete a file
 
+_Example:_
+
 ```C#
 await this.fileStorageRepository.DeleteAsync(fileId);
 ````
 
+### Namespace `Mongo.FileStorage.DependencyInjection`
+
+A extension method have been added to facilitate the registration of the `IFileStorage` repository.
+
+_Example:_
+
+```C#
+services.ResisterFileStorageRepository(RegisterMode.Transient);
+````
 
 ## Note
 

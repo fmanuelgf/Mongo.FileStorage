@@ -17,11 +17,13 @@
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <RepositoryUrl>https://github.com/fmanuelgf/Mongo.FileStorage</RepositoryUrl> 
     <RepositoryType>git</RepositoryType> 
+    <PackageReleaseNotes>https://github.com/fmanuelgf/Mongo.FileStorage/blob/main/CHANGELOG.md</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="MongoDB.Driver" Version="$(MongoDB-Driver)" />
     <PackageReference Include="MongoDB.Driver.GridFS" Version="$(MongoDB-Driver-GridFS)" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="$(Microsoft-Extensions-DependencyInjection)" />
   </ItemGroup>
 
   <ItemGroup>
