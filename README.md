@@ -68,7 +68,7 @@ _Example:_
 await this.fileStorageRepository.DeleteAsync(fileId);
 ````
 
-### Namespace `Mongo.FileStorage.DependencyInjection`
+## Namespace `Mongo.FileStorage.DependencyInjection`
 
 An extension method has been added to facilitate the registration of the `IFileStorage` repository.
 
