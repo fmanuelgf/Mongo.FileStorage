@@ -12,5 +12,7 @@ namespace Mongo.FileStorage.Repositories
         Task<GridFSFileInfo<ObjectId>> GetAsync(string idOrName);
 
         Task DeleteAsync(ObjectId fileId);
+        
+        Task DeleteAsync(string fileId);
     }
 }

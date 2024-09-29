@@ -59,5 +59,15 @@
         {
             await this.bucket.DeleteAsync(fileId);
         }
+
+        public async Task DeleteAsync(string fileId)
+        {
+            if (!ObjectId.TryParse(fileId, out var objectId))
+            {
+                throw new ArgumentException($"'{fileId}' is not a valid ObjectId");
+            }
+            
+            await this.bucket.DeleteAsync(objectId);
+        }
     }
 }
