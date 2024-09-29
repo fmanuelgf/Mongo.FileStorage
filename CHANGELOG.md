@@ -2,7 +2,7 @@
 
 ## Release 8.1.3
 
-- Add method `Task DeleteAsync(string fileId);`
+- Add method `DeleteAsync(string fileId)`
 
 ## Release 8.1.2
 
