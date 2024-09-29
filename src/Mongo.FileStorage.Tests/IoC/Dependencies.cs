@@ -17,7 +17,7 @@ namespace Mongo.FileStorage.Tests.IoC
         public static void Configure()
         {
             services = new ServiceCollection();
-            services.ResisterFileStorageRepository(RegisterMode.Transient);
+            services.RegisterFileStorageRepository(RegisterMode.Transient);
 
             provider = services.BuildServiceProvider();
         }

@@ -5,7 +5,6 @@ namespace Mongo.FileStorage.Tests.Repositories
     using MongoDB.Bson;
     using MongoDB.Driver;
     using MongoDB.Driver.GridFS;
-    using ZstdSharp.Unsafe;
 
     public class FileStorageRepositoryTests : IDisposable
     {
@@ -95,7 +94,7 @@ namespace Mongo.FileStorage.Tests.Repositories
             Assert.That(file.Filename, Is.EqualTo(fileName));
         }
 
-        [TestCase("objectId")]
+        [TestCase("ObjectId")]
         [TestCase("string")]
         public async Task CanDeleteAFileAsync(string type)
         {
@@ -103,13 +102,14 @@ namespace Mongo.FileStorage.Tests.Repositories
             var fileId = await this.CreateAndUploadFileAsync("image06.jpg");
 
             // Act
-            if (type == "string")
+            switch (type)
             {
-                await this.fileStorageRepository.DeleteAsync(fileId.ToString());
-            }
-            else
-            {
-                await this.fileStorageRepository.DeleteAsync(fileId);
+                case "string":
+                    await this.fileStorageRepository.DeleteAsync(fileId.ToString());
+                    break;
+                default:
+                    await this.fileStorageRepository.DeleteAsync(fileId);
+                    break;
             }
 
             // Assert

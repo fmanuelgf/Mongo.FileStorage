@@ -67,7 +67,7 @@ await this.fileStorageRepository.DeleteAsync(fileId);
 An extension method has been added to facilitate the registration of the `IFileStorage` repository.
 
 ```C#
-services.ResisterFileStorageRepository(RegisterMode.Transient);
+services.RegisterFileStorageRepository(RegisterMode.Transient);
 ````
 
 ## Note
