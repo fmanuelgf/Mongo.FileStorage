@@ -22,13 +22,15 @@
             this.bucket = new(database, options);
         }
 
+        /// <inheritdoc />
         public async Task<ObjectId> UploadAsync(FileStream fileStream)
         {
             var fileName = Path.GetFileName(fileStream.Name);
             return await this.bucket.UploadFromStreamAsync(filename: fileName, source: fileStream);
         }
 
-        public async Task<MemoryStream> DownloadAsync(string idOrName)
+        /// <inheritdoc />
+        public async Task<MemoryStream> DownloadAsStreamAsync(string idOrName)
         {
             var stream = new MemoryStream();
             if (ObjectId.TryParse(idOrName, out var fileId))
@@ -44,7 +46,21 @@
             return stream;
         }
 
-        public async Task<GridFSFileInfo<ObjectId>> GetAsync(string idOrName)
+        /// <inheritdoc />
+        public async Task<byte[]> DownloadAsByteArrayAsync(string idOrName)
+        {
+            if (ObjectId.TryParse(idOrName, out var fileId))
+            {
+                return await this.bucket.DownloadAsBytesAsync(fileId);
+            }
+            else
+            {
+                return await this.bucket.DownloadAsBytesByNameAsync(idOrName);
+            }
+        }
+
+        /// <inheritdoc />
+        public async Task<GridFSFileInfo<ObjectId>> GetFileInfoAsync(string idOrName)
         {
             var stream = new MemoryStream();
             var filter = ObjectId.TryParse(idOrName, out var fileId)
@@ -55,11 +71,13 @@
             return cursor.FirstOrDefault();
         }
 
+        /// <inheritdoc />
         public async Task DeleteAsync(ObjectId fileId)
         {
             await this.bucket.DeleteAsync(fileId);
         }
 
+        /// <inheritdoc />
         public async Task DeleteAsync(string fileId)
         {
             if (!ObjectId.TryParse(fileId, out var objectId))
@@ -68,6 +86,20 @@
             }
             
             await this.bucket.DeleteAsync(objectId);
+        }
+
+        /// <inheritdoc />
+        [Obsolete]
+        public Task<MemoryStream> DownloadAsync(string idOrName)
+        {
+            return this.DownloadAsStreamAsync(idOrName);
+        }
+
+        /// <inheritdoc />
+        [Obsolete]
+        public Task<GridFSFileInfo<ObjectId>> GetAsync(string idOrName)
+        {
+            return this.GetFileInfoAsync(idOrName);
         }
     }
 }

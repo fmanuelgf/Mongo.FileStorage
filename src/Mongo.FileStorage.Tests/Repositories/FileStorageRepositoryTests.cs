@@ -30,66 +30,76 @@ namespace Mongo.FileStorage.Tests.Repositories
             Assert.That(fileId.Timestamp, Is.GreaterThan(0));
         }
 
-        [Test]
-        public async Task CanDownloadAFileByIdAsync()
+        [TestCase("by Id")]
+        [TestCase("by Name")]
+        public async Task CanDownloadAFileAsStreamAsync(string option)
         {
             // Arrange
-            var fileId = await this.CreateAndUploadFileAsync("image02.jpg");
+            var fileName = "image02.jpg";
+            var fileId = await this.CreateAndUploadFileAsync(fileName);
             
             // Act
-            var file = await this.fileStorageRepository.DownloadAsync(fileId.ToString());
+            var file = await this.fileStorageRepository.DownloadAsStreamAsync(
+                option == "by Id"
+                    ? fileId.ToString()
+                    : fileName
+            );
 
             // Assert
             Assert.That(file, Is.Not.Null);
-            Assert.That(file.Length, Is.GreaterThan(0));
-
+            Assert.That(file.Length, Is.EqualTo(10992));
         }
 
-        [Test]
-        public async Task CanDownloadAFileByNameAsync()
+        [TestCase("by Id")]
+        [TestCase("by Name")]
+        public async Task CanDownloadAFileAsByteArrayAsync(string option)
         {
             // Arrange
             var fileName = "image03.jpg";
-            await this.CreateAndUploadFileAsync(fileName);
+            var fileId = await this.CreateAndUploadFileAsync(fileName);
             
             // Act
-            var file = await this.fileStorageRepository.DownloadAsync(fileName);
+            var file = await this.fileStorageRepository.DownloadAsByteArrayAsync(
+                option == "by Id"
+                    ? fileId.ToString()
+                    : fileName
+            );
 
             // Assert
             Assert.That(file, Is.Not.Null);
-            Assert.That(file.Length, Is.GreaterThan(0));
+            Assert.That(file.Length, Is.EqualTo(10992));
         }
 
         [Test]
-        public async Task CanGetAFileByIdAsync()
+        public async Task CanGetAFileInfoByIdAsync()
         {
             // Arrange
             var fileName = "image04.jpg";
             var fileId = await this.CreateAndUploadFileAsync(fileName);
             
             // Act
-            var file = await this.fileStorageRepository.GetAsync(fileId.ToString());
+            var file = await this.fileStorageRepository.GetFileInfoAsync(fileId.ToString());
 
             // Assert
             Assert.That(file, Is.Not.Null);
-            Assert.That(file.Length, Is.GreaterThan(0));
+            Assert.That(file.Length, Is.EqualTo(10992));
             Assert.That(file.Id, Is.EqualTo(fileId));
             Assert.That(file.Filename, Is.EqualTo(fileName));
         }
 
         [Test]
-        public async Task CanGetAFileByNameAsync()
+        public async Task CanGetAFileInfoByNameAsync()
         {
             // Arrange
             var fileName = "image05.jpg";
             var fileId = await this.CreateAndUploadFileAsync(fileName);
             
             // Act
-            var file = await this.fileStorageRepository.GetAsync(fileName);
+            var file = await this.fileStorageRepository.GetFileInfoAsync(fileName);
 
             // Assert
             Assert.That(file, Is.Not.Null);
-            Assert.That(file.Length, Is.GreaterThan(0));
+            Assert.That(file.Length, Is.EqualTo(10992));
             Assert.That(file.Id, Is.EqualTo(fileId));
             Assert.That(file.Filename, Is.EqualTo(fileName));
         }
@@ -114,7 +124,7 @@ namespace Mongo.FileStorage.Tests.Repositories
 
             // Assert
             Assert.ThrowsAsync<GridFSFileNotFoundException>(async () =>
-                await this.fileStorageRepository.DownloadAsync(fileId.ToString())
+                await this.fileStorageRepository.DownloadAsStreamAsync(fileId.ToString())
             );
         }
 

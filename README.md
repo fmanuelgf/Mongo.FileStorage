@@ -24,13 +24,21 @@ namespace Mongo.FileStorage.Repositories
     {
         Task<ObjectId> UploadAsync(FileStream fileStream);
 
-        Task<MemoryStream> DownloadAsync(string idOrName);
+        Task<MemoryStream> DownloadAsStreamAsync(string idOrName);;
 
-        Task<GridFSFileInfo<ObjectId>> GetAsync(string idOrName);
-
+        Task<byte[]> DownloadAsByteArrayAsync(string idOrName);
+        
+        Task<GridFSFileInfo<ObjectId>> GetFileInfoAsync(string idOrName);
+        
         Task DeleteAsync(ObjectId fileId);
         
         Task DeleteAsync(string fileId);
+
+        [Obsolete("Use DownloadAsStreamAsync instead as this method will be removed.")]
+        Task<MemoryStream> DownloadAsync(string idOrName);
+
+        [Obsolete("Use GetFileInfo instead as this method will be removed")]
+        Task<GridFSFileInfo<ObjectId>> GetAsync(string idOrName);
     }
 }
 ```
@@ -47,13 +55,13 @@ var fileId = await this.fileStorageRepository.UploadAsync(fs);
 > To download a file
 
 ```C#
-MemoryStream file = await this.fileStorageRepository.DownloadAsync(idOrName);
+MemoryStream file = await this.fileStorageRepository.DownloadAsStreamAsync(idOrName);
 ```
 
-> To get a file
+> To get details from a file
 
 ```C#
-GridFSFileInfo<ObjectId> file = await this.fileStorageRepository.GetAsync(idOrName);
+GridFSFileInfo<ObjectId> file = await this.fileStorageRepository.GetFileInfoAsync(idOrName);
 ```
 
 > To delete a file
