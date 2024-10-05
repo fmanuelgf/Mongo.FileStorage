@@ -50,7 +50,7 @@ namespace Mongo.FileStorage.Repositories
         /// </summary>
         /// <param name="idOrName"></param>
         /// <returns>The <see cref="MemoryStream"/>.</returns>
-        [Obsolete("Use DownloadAsStreamAsync instead as this method will be removed.")]
+        [Obsolete( "Use DownloadAsStreamAsync instead as this method will be removed.")]
         Task<MemoryStream> DownloadAsync(string idOrName);
 
         /// <summary>
@@ -58,7 +58,7 @@ namespace Mongo.FileStorage.Repositories
         /// </summary>
         /// <param name="idOrName">The ID or the name of the stored file.</param>
         /// <returns>The <see cref="GridFSFileInfo"/>.</returns>
-        [Obsolete("Use GetFileInfo instead as this method will be removed.")]
+        [Obsolete("Use GetFileInfoAsync instead as this method will be removed.")]
         Task<GridFSFileInfo<ObjectId>> GetAsync(string idOrName);
     }
 }
