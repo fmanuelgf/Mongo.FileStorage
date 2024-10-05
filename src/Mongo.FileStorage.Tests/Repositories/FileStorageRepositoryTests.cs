@@ -19,6 +19,7 @@ namespace Mongo.FileStorage.Tests.Repositories
         }
         
         [Test]
+        [Category("Happy Path")]
         public async Task CanUploadAFileAsync()
         {
             // Arrange
@@ -32,6 +33,7 @@ namespace Mongo.FileStorage.Tests.Repositories
 
         [TestCase("by Id")]
         [TestCase("by Name")]
+        [Category("Happy Path")]
         public async Task CanDownloadAFileAsStreamAsync(string option)
         {
             // Arrange
@@ -52,6 +54,7 @@ namespace Mongo.FileStorage.Tests.Repositories
 
         [TestCase("by Id")]
         [TestCase("by Name")]
+        [Category("Happy Path")]
         public async Task CanDownloadAFileAsByteArrayAsync(string option)
         {
             // Arrange
@@ -71,6 +74,7 @@ namespace Mongo.FileStorage.Tests.Repositories
         }
 
         [Test]
+        [Category("Happy Path")]
         public async Task CanGetAFileInfoByIdAsync()
         {
             // Arrange
@@ -88,6 +92,7 @@ namespace Mongo.FileStorage.Tests.Repositories
         }
 
         [Test]
+        [Category("Happy Path")]
         public async Task CanGetAFileInfoByNameAsync()
         {
             // Arrange
@@ -106,6 +111,7 @@ namespace Mongo.FileStorage.Tests.Repositories
 
         [TestCase("ObjectId")]
         [TestCase("string")]
+        [Category("Happy Path")]
         public async Task CanDeleteAFileAsync(string type)
         {
             // Arrange
@@ -126,6 +132,21 @@ namespace Mongo.FileStorage.Tests.Repositories
             Assert.ThrowsAsync<GridFSFileNotFoundException>(async () =>
                 await this.fileStorageRepository.DownloadAsStreamAsync(fileId.ToString())
             );
+        }
+
+        [Test]
+        [Category("Unhappy Path")]
+        public async Task CannotDeleteByInvalidIdAsync()
+        {
+            // Arrange
+            var fileId = await this.CreateAndUploadFileAsync("image06.jpg");
+
+            // Act
+            // Assert
+            var ex = Assert.ThrowsAsync<ArgumentException>(async () =>
+                await this.fileStorageRepository.DeleteAsync("foo")
+            );
+            Assert.That(ex.Message, Is.EqualTo($"'foo' is not a valid ObjectId"));
         }
 
         public void Dispose()
