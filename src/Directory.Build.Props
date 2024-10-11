@@ -2,7 +2,7 @@
   <!-- See https://aka.ms/dotnet/msbuild/customize for more details on customizing your build -->
   <PropertyGroup>
     <Target-Framework-Version>net8.0</Target-Framework-Version>
-    <Package-Version>8.1.5</Package-Version>
+    <Package-Version>8.1.6</Package-Version>
     <MongoDB-Driver>2.29.*</MongoDB-Driver>
     <MongoDB-Driver-GridFS>2.29.*</MongoDB-Driver-GridFS>
     <Coverlet-Collector>6.0.*</Coverlet-Collector>

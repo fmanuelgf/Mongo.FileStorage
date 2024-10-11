@@ -15,21 +15,42 @@ namespace Mongo.FileStorage.Repositories
         /// <summary>
         /// Download a stored file as a <see cref="MemoryStream"/>.
         /// </summary>
-        /// <param name="idOrName"></param>
+        /// <param name="fileId">The ID of the stored file to be downloaded.</param>
+        /// <returns>The <see cref="MemoryStream"/>.</returns>
+        Task<MemoryStream> DownloadAsStreamAsync(ObjectId fileId);
+
+        /// <summary>
+        /// Download a stored file as a <see cref="MemoryStream"/>.
+        /// </summary>
+        /// <param name="idOrName">The ID or the Name of the stored file to be downloaded.</param>
         /// <returns>The <see cref="MemoryStream"/>.</returns>
         Task<MemoryStream> DownloadAsStreamAsync(string idOrName);
 
         /// <summary>
         /// Download a stored file as a byte array.
         /// </summary>
-        /// <param name="idOrName"></param>
+        /// <param name="fileId">The ID of the stored file to be downloaded.</param>
+        /// <returns>The <see cref="byte"/> array.</returns>
+        Task<byte[]> DownloadAsByteArrayAsync(ObjectId fileId);
+
+        /// <summary>
+        /// Download a stored file as a byte array.
+        /// </summary>
+        /// <param name="idOrName">The ID or the Name of the stored file to be downloaded.</param>
         /// <returns>The <see cref="byte"/> array.</returns>
         Task<byte[]> DownloadAsByteArrayAsync(string idOrName);
 
         /// <summary>
         /// Get the <see cref="GridFSFileInfo"/> of the given file.
         /// </summary>
-        /// <param name="idOrName">The ID or the name of the stored file.</param>
+        /// <param name="fileId">The ID of the stored file.</param>
+        /// <returns>The <see cref="GridFSFileInfo"/>.</returns>
+        Task<GridFSFileInfo<ObjectId>> GetFileInfoAsync(ObjectId fileId);
+
+        /// <summary>
+        /// Get the <see cref="GridFSFileInfo"/> of the given file.
+        /// </summary>
+        /// <param name="idOrName">The ID or the Name of the stored file.</param>
         /// <returns>The <see cref="GridFSFileInfo"/>.</returns>
         Task<GridFSFileInfo<ObjectId>> GetFileInfoAsync(string idOrName);
 
@@ -42,7 +63,7 @@ namespace Mongo.FileStorage.Repositories
         /// <summary>
         /// Delete a stored file
         /// </summary>
-        /// <param name="fileId">The name of the stored file to be deleted.</param>
+        /// <param name="fileId">The ID or the Name of the stored file to be deleted.</param>
         Task DeleteAsync(string fileId);
 
         /// <summary>

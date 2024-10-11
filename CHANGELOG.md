@@ -1,5 +1,11 @@
 # Mongo.FileStorage
 
+## Release 8.1.6
+
+- Add method `DownloadAsStreamAsync(ObjectId fileId)`;
+- Add method `DownloadAsByteArrayAsync(ObjectId fileId)`;
+- Add method `GetFileInfoAsync(ObjectId fileId)`;
+
 ## Release 8.1.5
 
 - Add method `DownloadAsStreamAsync`.

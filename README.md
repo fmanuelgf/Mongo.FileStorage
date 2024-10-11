@@ -14,7 +14,7 @@ Library to store files using [MongoDB](https://www.Mongo.com)
 
 ## Interface
 
-```C#
+```csharp
 namespace Mongo.FileStorage.Repositories
 {
     using MongoDB.Bson;
@@ -24,9 +24,15 @@ namespace Mongo.FileStorage.Repositories
     {
         Task<ObjectId> UploadAsync(FileStream fileStream);
 
-        Task<MemoryStream> DownloadAsStreamAsync(string idOrName);;
+        Task<MemoryStream> DownloadAsStreamAsync(ObjectId fileId);
+        
+        Task<MemoryStream> DownloadAsStreamAsync(string idOrName);
 
+        Task<byte[]> DownloadAsByteArrayAsync(ObjectId fileId);
+        
         Task<byte[]> DownloadAsByteArrayAsync(string idOrName);
+        
+        Task<GridFSFileInfo<ObjectId>> GetFileInfoAsync(ObjectId fileId);
         
         Task<GridFSFileInfo<ObjectId>> GetFileInfoAsync(string idOrName);
         
@@ -45,37 +51,39 @@ namespace Mongo.FileStorage.Repositories
 
 ## Usage
 
+> First, register the `IFileStorageRepository` in the services collection.
+
+```csharp
+using Mongo.FileStorage.DependencyInjection;
+
+...
+
+services.RegisterFileStorageRepository(RegisterMode.Transient);
+````
+
 > To upload a file
 
-```C#
+```csharp
 var fs = File.OpenRead(filePath);
 var fileId = await this.fileStorageRepository.UploadAsync(fs);
 ```
 
 > To download a file
 
-```C#
+```csharp
 MemoryStream file = await this.fileStorageRepository.DownloadAsStreamAsync(idOrName);
 ```
 
 > To get details from a file
 
-```C#
+```csharp
 GridFSFileInfo<ObjectId> file = await this.fileStorageRepository.GetFileInfoAsync(idOrName);
 ```
 
 > To delete a file
 
-```C#
+```csharp
 await this.fileStorageRepository.DeleteAsync(fileId);
-````
-
-## Namespace `Mongo.FileStorage.DependencyInjection`
-
-An extension method has been added to facilitate the registration of the `IFileStorage` repository.
-
-```C#
-services.RegisterFileStorageRepository(RegisterMode.Transient);
 ````
 
 ## Note
