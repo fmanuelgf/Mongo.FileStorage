@@ -69,6 +69,8 @@ namespace Mongo.FileStorage.Tests.Repositories
             Assert.That(file.Length, Is.EqualTo(10992));
         }
 
+        [Test]
+        [Category("Happy Path")]
         public async Task CanDownloadAFileByObjectIdAsStreamAsync()
         {
             // Arrange
@@ -104,6 +106,8 @@ namespace Mongo.FileStorage.Tests.Repositories
             Assert.That(file.Length, Is.EqualTo(10992));
         }
 
+        [Test]
+        [Category("Happy Path")]
         public async Task CanDownloadAFileByObjectIdAsByteArrayAsync()
         {
             // Arrange
