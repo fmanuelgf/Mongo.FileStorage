@@ -86,6 +86,15 @@ GridFSFileInfo<ObjectId> file = await this.fileStorageRepository.GetFileInfoAsyn
 await this.fileStorageRepository.DeleteAsync(fileId);
 ````
 
+## FileStorage class
+
+> **Note:** Auxiliary static class providing access to the GridFSBucket, if needed.
+
+```csharp
+var bucket = FileStorage.Bucket;
+...
+````
+
 ## Note
 
 - In order to run the tests, you must first run `docker compose up -d`.

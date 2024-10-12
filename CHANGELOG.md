@@ -1,5 +1,10 @@
 # Mongo.FileStorage
 
+## Release 8.1.7
+
+- Add `FileStorage.Bucket`.
+- Make the repository methods `virtual` so that they can be overridden in derived classes.
+
 ## Release 8.1.6
 
 - Add method `DownloadAsStreamAsync(ObjectId fileId)`;

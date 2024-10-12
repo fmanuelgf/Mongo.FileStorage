@@ -11,26 +11,18 @@
         
         public FileStorageRepository()
         {
-            var client = new MongoClient(AppConfig.ConnectionString);
-            var database = client.GetDatabase(AppConfig.DatabaseName);
-            var options = new GridFSBucketOptions
-            {
-                BucketName = AppConfig.BucketName,
-                ChunkSizeBytes = AppConfig.ChunkSizeBytes
-            };
-            
-            this.bucket = new(database, options);
+            this.bucket = FileStorage.Bucket;
         }
 
         /// <inheritdoc />
-        public async Task<ObjectId> UploadAsync(FileStream fileStream)
+        public virtual async Task<ObjectId> UploadAsync(FileStream fileStream)
         {
             var fileName = Path.GetFileName(fileStream.Name);
             return await this.bucket.UploadFromStreamAsync(filename: fileName, source: fileStream);
         }
 
         /// <inheritdoc />
-        public async Task<MemoryStream> DownloadAsStreamAsync(ObjectId fileId)
+        public virtual async Task<MemoryStream> DownloadAsStreamAsync(ObjectId fileId)
         {
             var stream = new MemoryStream();
             await this.bucket.DownloadToStreamAsync(fileId, stream);
@@ -40,7 +32,7 @@
         }
 
         /// <inheritdoc />
-        public async Task<MemoryStream> DownloadAsStreamAsync(string idOrName)
+        public virtual async Task<MemoryStream> DownloadAsStreamAsync(string idOrName)
         {
             if (ObjectId.TryParse(idOrName, out var fileId))
             {
@@ -55,13 +47,13 @@
         }
 
         /// <inheritdoc />
-        public async Task<byte[]> DownloadAsByteArrayAsync(ObjectId fileId)
+        public virtual async Task<byte[]> DownloadAsByteArrayAsync(ObjectId fileId)
         {
             return await this.bucket.DownloadAsBytesAsync(fileId);
         }
 
         /// <inheritdoc />
-        public async Task<byte[]> DownloadAsByteArrayAsync(string idOrName)
+        public virtual async Task<byte[]> DownloadAsByteArrayAsync(string idOrName)
         {
             if (ObjectId.TryParse(idOrName, out var fileId))
             {
@@ -74,7 +66,7 @@
         }
 
         /// <inheritdoc />
-        public async Task<GridFSFileInfo<ObjectId>> GetFileInfoAsync(ObjectId fileId)
+        public virtual async Task<GridFSFileInfo<ObjectId>> GetFileInfoAsync(ObjectId fileId)
         {
             var stream = new MemoryStream();
             var filter = Builders<GridFSFileInfo<ObjectId>>.Filter.Eq(x => x.Id, fileId);
@@ -84,7 +76,7 @@
         }
 
         /// <inheritdoc />
-        public async Task<GridFSFileInfo<ObjectId>> GetFileInfoAsync(string idOrName)
+        public virtual async Task<GridFSFileInfo<ObjectId>> GetFileInfoAsync(string idOrName)
         {
             if (ObjectId.TryParse(idOrName, out var fileId))
             {
@@ -99,13 +91,13 @@
         }
 
         /// <inheritdoc />
-        public async Task DeleteAsync(ObjectId fileId)
+        public virtual async Task DeleteAsync(ObjectId fileId)
         {
             await this.bucket.DeleteAsync(fileId);
         }
 
         /// <inheritdoc />
-        public async Task DeleteAsync(string fileId)
+        public virtual async Task DeleteAsync(string fileId)
         {
             if (!ObjectId.TryParse(fileId, out var objectId))
             {

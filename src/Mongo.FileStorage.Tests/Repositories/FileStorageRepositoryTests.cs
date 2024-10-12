@@ -25,8 +25,10 @@ namespace Mongo.FileStorage.Tests.Repositories
         public async Task CanUploadAFileAsync()
         {
             // Arrange
+            var fileName = $"{this.RandomString(5)}.jpg";
+            
             // Act
-            var fileId = await this.CreateAndUploadFileAsync("image01.jpg");
+            var fileId = await this.CreateAndUploadFileAsync(fileName);
 
             // Assert
             Assert.That(fileId, Is.InstanceOf<ObjectId>());
