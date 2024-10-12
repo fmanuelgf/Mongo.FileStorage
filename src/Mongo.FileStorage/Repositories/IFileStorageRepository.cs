@@ -6,6 +6,11 @@ namespace Mongo.FileStorage.Repositories
     public interface IFileStorageRepository
     {
         /// <summary>
+        /// The <see cref="GridFSBucket"/>.
+        /// </summary>
+        GridFSBucket Bucket { get; }
+
+        /// <summary>
         /// Store a file in the database.
         /// </summary>
         /// <param name="fileStream">The <see cref="FileStream"/> to store.</param>

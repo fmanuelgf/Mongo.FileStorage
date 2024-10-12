@@ -1,7 +1,7 @@
 namespace Mongo.FileStorage.Tests.Repositories
 {
     using Mongo.FileStorage.Repositories;
-    using Mongo.FileStorage.Tests.IoC;
+    using Mongo.FileStorage.Tests.Setup;
     using MongoDB.Bson;
     using MongoDB.Driver;
     using MongoDB.Driver.GridFS;
@@ -13,11 +13,24 @@ namespace Mongo.FileStorage.Tests.Repositories
 
         public FileStorageRepositoryTests()
         {
-            TestConfig.Configure();
-            Dependencies.Configure();
+            TestSetup.Configure();
             
-            this.fileStorageRepository = Dependencies.GetRequiredService<IFileStorageRepository>();
+            this.fileStorageRepository = TestSetup.Dependencies.GetRequiredService<IFileStorageRepository>();
             this.rnd = new Random((int)DateTime.UtcNow.Ticks);
+        }
+
+        [Test]
+        [Category("Happy Path")]
+        public void CanGetTheBucket()
+        {
+            // Arrange
+            // Act
+            var bucket = this.fileStorageRepository.Bucket;
+
+            // Assert
+            Assert.That(bucket.Database.DatabaseNamespace.DatabaseName, Is.EqualTo(TestConstants.DatabaseName));
+            Assert.That(bucket.Options.BucketName, Is.EqualTo(TestConstants.BucketName));
+            Assert.That(bucket.Options.ChunkSizeBytes, Is.EqualTo(TestConstants.ChunkSizeBytes));
         }
         
         [Test]

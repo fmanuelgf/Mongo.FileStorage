@@ -22,6 +22,8 @@ namespace Mongo.FileStorage.Repositories
 
     public interface IFileStorageRepository
     {
+        GridFSBucket Bucket { get; }
+
         Task<ObjectId> UploadAsync(FileStream fileStream);
 
         Task<MemoryStream> DownloadAsStreamAsync(ObjectId fileId);
@@ -86,19 +88,9 @@ GridFSFileInfo<ObjectId> file = await this.fileStorageRepository.GetFileInfoAsyn
 await this.fileStorageRepository.DeleteAsync(fileId);
 ````
 
-## FileStorage class
-
-> **Note:** Auxiliary static class providing access to the GridFSBucket, if needed.
-
-```csharp
-var bucket = FileStorage.Bucket;
-...
-````
-
 ## Note
 
 - In order to run the tests, you must first run `docker compose up -d`.
-
 - You can then manage the database at [http://localhost:8081](http://localhost:8081), with:
   - User: user
   - Password: pwd

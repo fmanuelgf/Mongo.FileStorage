@@ -2,7 +2,7 @@
 
 ## Release 8.1.7
 
-- Add `FileStorage.Bucket`.
+- Add the property `Bucket` to `IFileStorageRepository`.
 - Make the repository methods `virtual` so that they can be overridden in derived classes.
 
 ## Release 8.1.6
