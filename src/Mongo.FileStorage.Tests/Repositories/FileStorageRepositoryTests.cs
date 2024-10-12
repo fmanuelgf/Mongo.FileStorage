@@ -9,6 +9,7 @@ namespace Mongo.FileStorage.Tests.Repositories
     public class FileStorageRepositoryTests : IDisposable
     {
         private readonly IFileStorageRepository fileStorageRepository;
+        private readonly Random rnd;
 
         public FileStorageRepositoryTests()
         {
@@ -16,6 +17,7 @@ namespace Mongo.FileStorage.Tests.Repositories
             Dependencies.Configure();
             
             this.fileStorageRepository = Dependencies.GetRequiredService<IFileStorageRepository>();
+            this.rnd = new Random((int)DateTime.UtcNow.Ticks);
         }
         
         [Test]
@@ -34,10 +36,10 @@ namespace Mongo.FileStorage.Tests.Repositories
         [TestCase("by Id")]
         [TestCase("by Name")]
         [Category("Happy Path")]
-        public async Task CanDownloadAFileAsStreamAsync(string option)
+        public async Task CanDownloadAFileByIdOrNameAsStreamAsync(string option)
         {
             // Arrange
-            var fileName = "image02.jpg";
+            var fileName = $"{this.RandomString(5)}.jpg";
             var fileId = await this.CreateAndUploadFileAsync(fileName);
             
             // Act
@@ -52,13 +54,27 @@ namespace Mongo.FileStorage.Tests.Repositories
             Assert.That(file.Length, Is.EqualTo(10992));
         }
 
+        public async Task CanDownloadAFileByObjectIdAsStreamAsync()
+        {
+            // Arrange
+            var fileName = $"{this.RandomString(5)}.jpg";
+            var fileId = await this.CreateAndUploadFileAsync(fileName);
+            
+            // Act
+            var file = await this.fileStorageRepository.DownloadAsStreamAsync(fileId);
+
+            // Assert
+            Assert.That(file, Is.Not.Null);
+            Assert.That(file.Length, Is.EqualTo(10992));
+        }
+
         [TestCase("by Id")]
         [TestCase("by Name")]
         [Category("Happy Path")]
-        public async Task CanDownloadAFileAsByteArrayAsync(string option)
+        public async Task CanDownloadAFileByIdOrNameAsByteArrayAsync(string option)
         {
             // Arrange
-            var fileName = "image03.jpg";
+            var fileName = $"{this.RandomString(5)}.jpg";
             var fileId = await this.CreateAndUploadFileAsync(fileName);
             
             // Act
@@ -73,16 +89,35 @@ namespace Mongo.FileStorage.Tests.Repositories
             Assert.That(file.Length, Is.EqualTo(10992));
         }
 
-        [Test]
-        [Category("Happy Path")]
-        public async Task CanGetAFileInfoByIdAsync()
+        public async Task CanDownloadAFileByObjectIdAsByteArrayAsync()
         {
             // Arrange
-            var fileName = "image04.jpg";
+            var fileName = $"{this.RandomString(5)}.jpg";
             var fileId = await this.CreateAndUploadFileAsync(fileName);
             
             // Act
-            var file = await this.fileStorageRepository.GetFileInfoAsync(fileId.ToString());
+            var file = await this.fileStorageRepository.DownloadAsByteArrayAsync(fileId);
+
+            // Assert
+            Assert.That(file, Is.Not.Null);
+            Assert.That(file.Length, Is.EqualTo(10992));
+        }
+
+        [TestCase("by Id")]
+        [TestCase("by Name")]
+        [Category("Happy Path")]
+        public async Task CanGetAFileInfoByIdOrNameAsync(string option)
+        {
+            // Arrange
+            var fileName = $"{this.RandomString(5)}.jpg";
+            var fileId = await this.CreateAndUploadFileAsync(fileName);
+            
+            // Act
+            var file = await this.fileStorageRepository.GetFileInfoAsync(
+                option == "by Id"
+                    ? fileId.ToString()
+                    : fileName
+            );
 
             // Assert
             Assert.That(file, Is.Not.Null);
@@ -93,14 +128,14 @@ namespace Mongo.FileStorage.Tests.Repositories
 
         [Test]
         [Category("Happy Path")]
-        public async Task CanGetAFileInfoByNameAsync()
+        public async Task CanGetAFileInfoByObjectIdAsync()
         {
             // Arrange
-            var fileName = "image05.jpg";
+            var fileName = $"{this.RandomString(5)}.jpg";
             var fileId = await this.CreateAndUploadFileAsync(fileName);
             
             // Act
-            var file = await this.fileStorageRepository.GetFileInfoAsync(fileName);
+            var file = await this.fileStorageRepository.GetFileInfoAsync(fileId);
 
             // Assert
             Assert.That(file, Is.Not.Null);
@@ -112,10 +147,11 @@ namespace Mongo.FileStorage.Tests.Repositories
         [TestCase("ObjectId")]
         [TestCase("string")]
         [Category("Happy Path")]
-        public async Task CanDeleteAFileAsync(string type)
+        public async Task CanDeleteAFileByIdAsync(string type)
         {
             // Arrange
-            var fileId = await this.CreateAndUploadFileAsync("image06.jpg");
+            var fileName = $"{this.RandomString(5)}.jpg";
+            var fileId = await this.CreateAndUploadFileAsync(fileName);
 
             // Act
             switch (type)
@@ -139,7 +175,8 @@ namespace Mongo.FileStorage.Tests.Repositories
         public async Task CannotDeleteByInvalidIdAsync()
         {
             // Arrange
-            var fileId = await this.CreateAndUploadFileAsync("image06.jpg");
+            var fileName = $"{this.RandomString(5)}.jpg";
+            var fileId = await this.CreateAndUploadFileAsync(fileName);
 
             // Act
             // Assert
@@ -165,6 +202,15 @@ namespace Mongo.FileStorage.Tests.Repositories
             File.Delete(filePath);
             
             return fileId;
+        }
+
+        private string RandomString(int length)
+        {
+            return new string(Enumerable
+                .Repeat("abcdefghijklmnopqrstuvwxyz0123456789", length)
+                .Select(s => s[this.rnd.Next(s.Length)])
+                .ToArray()
+            );
         }
     }
 }
