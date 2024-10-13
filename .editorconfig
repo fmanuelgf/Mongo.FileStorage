@@ -1,0 +1,7 @@
+[*.cs]
+#### .NET Coding Conventions ####
+# Organize usings
+csharp_using_directive_placement = inside_namespace:suggestion
+
+# CA1848: Use the LoggerMessage delegates
+dotnet_diagnostic.CA1848.severity = none
