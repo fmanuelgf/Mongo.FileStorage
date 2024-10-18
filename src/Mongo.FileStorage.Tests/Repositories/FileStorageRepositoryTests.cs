@@ -1,22 +1,15 @@
 namespace Mongo.FileStorage.Tests.Repositories
 {
-    using Mongo.FileStorage.Repositories;
+    using Mongo.FileStorage.Tests.Repositories.Base;
     using Mongo.FileStorage.Tests.Setup;
     using MongoDB.Bson;
-    using MongoDB.Driver;
     using MongoDB.Driver.GridFS;
 
-    public class FileStorageRepositoryTests : IDisposable
+    public class FileStorageRepositoryTests : TestsBase
     {
-        private readonly IFileStorageRepository fileStorageRepository;
-        private readonly Random rnd;
-
         public FileStorageRepositoryTests()
+            : base()
         {
-            TestSetup.Configure();
-            
-            this.fileStorageRepository = TestSetup.Dependencies.GetRequiredService<IFileStorageRepository>();
-            this.rnd = new Random((int)DateTime.UtcNow.Ticks);
         }
 
         [Test]
@@ -25,7 +18,7 @@ namespace Mongo.FileStorage.Tests.Repositories
         {
             // Arrange
             // Act
-            var bucket = this.fileStorageRepository.Bucket;
+            var bucket = this.FilesRepository.Bucket;
 
             // Assert
             Assert.That(bucket.Database.DatabaseNamespace.DatabaseName, Is.EqualTo(TestConstants.DatabaseName));
@@ -58,7 +51,7 @@ namespace Mongo.FileStorage.Tests.Repositories
             var fileId = await this.CreateAndUploadFileAsync(fileName);
             
             // Act
-            var file = await this.fileStorageRepository.DownloadAsStreamAsync(
+            var file = await this.FilesRepository.DownloadAsStreamAsync(
                 option == "by Id"
                     ? fileId.ToString()
                     : fileName
@@ -78,7 +71,7 @@ namespace Mongo.FileStorage.Tests.Repositories
             var fileId = await this.CreateAndUploadFileAsync(fileName);
             
             // Act
-            var file = await this.fileStorageRepository.DownloadAsStreamAsync(fileId);
+            var file = await this.FilesRepository.DownloadAsStreamAsync(fileId);
 
             // Assert
             Assert.That(file, Is.Not.Null);
@@ -95,7 +88,7 @@ namespace Mongo.FileStorage.Tests.Repositories
             var fileId = await this.CreateAndUploadFileAsync(fileName);
             
             // Act
-            var file = await this.fileStorageRepository.DownloadAsByteArrayAsync(
+            var file = await this.FilesRepository.DownloadAsByteArrayAsync(
                 option == "by Id"
                     ? fileId.ToString()
                     : fileName
@@ -115,7 +108,7 @@ namespace Mongo.FileStorage.Tests.Repositories
             var fileId = await this.CreateAndUploadFileAsync(fileName);
             
             // Act
-            var file = await this.fileStorageRepository.DownloadAsByteArrayAsync(fileId);
+            var file = await this.FilesRepository.DownloadAsByteArrayAsync(fileId);
 
             // Assert
             Assert.That(file, Is.Not.Null);
@@ -132,7 +125,7 @@ namespace Mongo.FileStorage.Tests.Repositories
             var fileId = await this.CreateAndUploadFileAsync(fileName);
             
             // Act
-            var file = await this.fileStorageRepository.GetFileInfoAsync(
+            var file = await this.FilesRepository.GetFileInfoAsync(
                 option == "by Id"
                     ? fileId.ToString()
                     : fileName
@@ -154,7 +147,7 @@ namespace Mongo.FileStorage.Tests.Repositories
             var fileId = await this.CreateAndUploadFileAsync(fileName);
             
             // Act
-            var file = await this.fileStorageRepository.GetFileInfoAsync(fileId);
+            var file = await this.FilesRepository.GetFileInfoAsync(fileId);
 
             // Assert
             Assert.That(file, Is.Not.Null);
@@ -176,59 +169,75 @@ namespace Mongo.FileStorage.Tests.Repositories
             switch (type)
             {
                 case "string":
-                    await this.fileStorageRepository.DeleteAsync(fileId.ToString());
+                    await this.FilesRepository.DeleteAsync(fileId.ToString());
                     break;
                 default:
-                    await this.fileStorageRepository.DeleteAsync(fileId);
+                    await this.FilesRepository.DeleteAsync(fileId);
                     break;
             }
 
             // Assert
             Assert.ThrowsAsync<GridFSFileNotFoundException>(async () =>
-                await this.fileStorageRepository.DownloadAsStreamAsync(fileId.ToString())
+                await this.FilesRepository.DownloadAsStreamAsync(fileId.ToString())
+            );
+        }
+
+        [TestCase("by Id")]
+        [TestCase("by Name")]
+        [Category("Unhappy Path")]
+        public void CannotDownloadAsStreamAnUnexistingFile(string option)
+        {
+            // Arrange
+            // Act
+            // Assert
+            var ex = Assert.ThrowsAsync<GridFSFileNotFoundException>(async () =>
+                await this.FilesRepository.DownloadAsStreamAsync(
+                    option == "by Id"
+                        ? ObjectId.GenerateNewId().ToString()
+                        : "unexisting-file.txt"
+                )
+            );
+        }
+
+        [TestCase("by Id")]
+        [TestCase("by Name")]
+        [Category("Unhappy Path")]
+        public void CannotDownloadAsByteArrayAnUnexistingFile(string option)
+        {
+            // Arrange
+            // Act
+            // Assert
+            var ex = Assert.ThrowsAsync<GridFSFileNotFoundException>(async () =>
+                await this.FilesRepository.DownloadAsByteArrayAsync(
+                    option == "by Id"
+                        ? ObjectId.GenerateNewId().ToString()
+                        : "unexisting-file.txt"
+                )
             );
         }
 
         [Test]
         [Category("Unhappy Path")]
-        public async Task CannotDeleteByInvalidIdAsync()
+        public void CannotDeleteByInvalidId()
         {
             // Arrange
-            var fileName = $"{this.RandomString(5)}.jpg";
-            var fileId = await this.CreateAndUploadFileAsync(fileName);
-
             // Act
             // Assert
             var ex = Assert.ThrowsAsync<ArgumentException>(async () =>
-                await this.fileStorageRepository.DeleteAsync("foo")
+                await this.FilesRepository.DeleteAsync("foo")
             );
             Assert.That(ex.Message, Is.EqualTo($"'foo' is not a valid ObjectId"));
         }
 
-        public void Dispose()
+        [Test]
+        [Category("Unhappy Path")]
+        public void CannotDeleteByUnexistingId()
         {
-            var client = new MongoClient(AppConfig.ConnectionString);
-            client.DropDatabase(AppConfig.DatabaseName);
-        }
-
-        private async Task<ObjectId> CreateAndUploadFileAsync(string fileName)
-        {
-            var filePath = $"TestFiles/{fileName}";
-            File.Copy($"TestFiles/Robby-Robot.jpg", filePath);
-            
-            var fs = File.OpenRead(filePath);
-            var fileId = await this.fileStorageRepository.UploadAsync(fs);
-            File.Delete(filePath);
-            
-            return fileId;
-        }
-
-        private string RandomString(int length)
-        {
-            return new string(Enumerable
-                .Repeat("abcdefghijklmnopqrstuvwxyz0123456789", length)
-                .Select(s => s[this.rnd.Next(s.Length)])
-                .ToArray()
+            // Arrange
+            // Act
+            // Assert
+            var ex = Assert.ThrowsAsync<GridFSFileNotFoundException>(async () =>
+                await this.FilesRepository.DeleteAsync(ObjectId.GenerateNewId())
             );
         }
     }
