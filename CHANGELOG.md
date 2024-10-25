@@ -1,5 +1,9 @@
 # Mongo.FileStorage
 
+## Release 8.2.0
+
+- Remove obsolete code
+
 ## Release 8.1.7
 
 - Add the property `Bucket` to `IFileStorageRepository`.

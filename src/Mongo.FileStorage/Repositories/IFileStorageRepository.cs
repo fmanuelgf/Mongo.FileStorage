@@ -70,21 +70,5 @@ namespace Mongo.FileStorage.Repositories
         /// </summary>
         /// <param name="fileId">The ID or the Name of the stored file to be deleted.</param>
         Task DeleteAsync(string fileId);
-
-        /// <summary>
-        /// Download a stored file as a <see cref="MemoryStream"/>.
-        /// </summary>
-        /// <param name="idOrName"></param>
-        /// <returns>The <see cref="MemoryStream"/>.</returns>
-        [Obsolete( "Use DownloadAsStreamAsync instead as this method will be removed.")]
-        Task<MemoryStream> DownloadAsync(string idOrName);
-
-        /// <summary>
-        /// Get the <see cref="GridFSFileInfo"/> of the given file.
-        /// </summary>
-        /// <param name="idOrName">The ID or the name of the stored file.</param>
-        /// <returns>The <see cref="GridFSFileInfo"/>.</returns>
-        [Obsolete("Use GetFileInfoAsync instead as this method will be removed.")]
-        Task<GridFSFileInfo<ObjectId>> GetAsync(string idOrName);
     }
 }

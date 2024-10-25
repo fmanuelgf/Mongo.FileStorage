@@ -41,12 +41,6 @@ namespace Mongo.FileStorage.Repositories
         Task DeleteAsync(ObjectId fileId);
         
         Task DeleteAsync(string fileId);
-
-        [Obsolete("Use DownloadAsStreamAsync instead as this method will be removed.")]
-        Task<MemoryStream> DownloadAsync(string idOrName);
-
-        [Obsolete("Use GetFileInfoAsync instead as this method will be removed")]
-        Task<GridFSFileInfo<ObjectId>> GetAsync(string idOrName);
     }
 }
 ```

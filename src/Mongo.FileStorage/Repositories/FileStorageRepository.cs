@@ -114,19 +114,5 @@
             
             await this.Bucket.DeleteAsync(objectId);
         }
-
-        /// <inheritdoc />
-        [Obsolete]
-        public Task<MemoryStream> DownloadAsync(string idOrName)
-        {
-            return this.DownloadAsStreamAsync(idOrName);
-        }
-
-        /// <inheritdoc />
-        [Obsolete]
-        public Task<GridFSFileInfo<ObjectId>> GetAsync(string idOrName)
-        {
-            return this.GetFileInfoAsync(idOrName);
-        }
     }
 }
