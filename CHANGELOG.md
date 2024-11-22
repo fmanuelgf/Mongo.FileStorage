@@ -1,5 +1,9 @@
 # Mongo.FileStorage
 
+## Release 8.2.1
+
+- Update nuget packages
+
 ## Release 8.2.0
 
 - Remove obsolete code

@@ -22,7 +22,6 @@
 
   <ItemGroup>
     <PackageReference Include="MongoDB.Driver" Version="$(MongoDB-Driver)" />
-    <PackageReference Include="MongoDB.Driver.GridFS" Version="$(MongoDB-Driver-GridFS)" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="$(Microsoft-Extensions-DependencyInjection)" />
   </ItemGroup>
 
