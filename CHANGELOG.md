@@ -1,5 +1,9 @@
 # Mongo.FileStorage
 
+## Release 9.0.0
+
+- Upgrade to dotnet 9
+
 ## Release 8.2.1
 
 - Update nuget packages
