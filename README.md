@@ -47,7 +47,7 @@ namespace Mongo.FileStorage.Repositories
 
 ## Usage
 
-> First, register the `IFileStorageRepository` in the services collection.
+First, register the `IFileStorageRepository` in the services collection.
 
 ```csharp
 using Mongo.FileStorage.DependencyInjection;
@@ -57,26 +57,26 @@ using Mongo.FileStorage.DependencyInjection;
 services.RegisterFileStorageRepository(RegisterMode.Transient);
 ````
 
-> To upload a file
+To upload a file
 
 ```csharp
 var fs = File.OpenRead(filePath);
 var fileId = await this.fileStorageRepository.UploadAsync(fs);
 ```
 
-> To download a file
+To download a file
 
 ```csharp
 MemoryStream file = await this.fileStorageRepository.DownloadAsStreamAsync(idOrName);
 ```
 
-> To get details from a file
+To get details from a file
 
 ```csharp
 GridFSFileInfo<ObjectId> file = await this.fileStorageRepository.GetFileInfoAsync(idOrName);
 ```
 
-> To delete a file
+To delete a file
 
 ```csharp
 await this.fileStorageRepository.DeleteAsync(fileId);
