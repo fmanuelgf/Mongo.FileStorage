@@ -190,7 +190,7 @@ namespace Mongo.FileStorage.Tests.Repositories
             // Arrange
             // Act
             // Assert
-            var ex = Assert.ThrowsAsync<GridFSFileNotFoundException>(async () =>
+            Assert.ThrowsAsync<GridFSFileNotFoundException>(async () =>
                 await this.FilesRepository.DownloadAsStreamAsync(
                     option == "by Id"
                         ? ObjectId.GenerateNewId().ToString()
@@ -207,7 +207,7 @@ namespace Mongo.FileStorage.Tests.Repositories
             // Arrange
             // Act
             // Assert
-            var ex = Assert.ThrowsAsync<GridFSFileNotFoundException>(async () =>
+            Assert.ThrowsAsync<GridFSFileNotFoundException>(async () =>
                 await this.FilesRepository.DownloadAsByteArrayAsync(
                     option == "by Id"
                         ? ObjectId.GenerateNewId().ToString()
@@ -226,7 +226,7 @@ namespace Mongo.FileStorage.Tests.Repositories
             var ex = Assert.ThrowsAsync<ArgumentException>(async () =>
                 await this.FilesRepository.DeleteAsync("foo")
             );
-            Assert.That(ex.Message, Is.EqualTo($"'foo' is not a valid ObjectId"));
+            Assert.That(ex?.Message, Is.EqualTo($"'foo' is not a valid ObjectId"));
         }
 
         [Test]
@@ -236,7 +236,7 @@ namespace Mongo.FileStorage.Tests.Repositories
             // Arrange
             // Act
             // Assert
-            var ex = Assert.ThrowsAsync<GridFSFileNotFoundException>(async () =>
+            Assert.ThrowsAsync<GridFSFileNotFoundException>(async () =>
                 await this.FilesRepository.DeleteAsync(ObjectId.GenerateNewId())
             );
         }
