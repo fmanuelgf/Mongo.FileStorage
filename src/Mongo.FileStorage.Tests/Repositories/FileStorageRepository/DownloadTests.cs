@@ -1,19 +1,19 @@
-namespace Mongo.FileStorage.Tests.Repositories
+namespace Mongo.FileStorage.Tests.Repositories.FileStorageRepository
 {
     using Mongo.FileStorage.Tests.Repositories.Base;
     using Mongo.FileStorage.Tests.Setup;
     using MongoDB.Bson;
     using MongoDB.Driver.GridFS;
 
-    public class FileStorageRepositoryTests : TestsBase
+    public class DownloadTests : TestsBase
     {
-        public FileStorageRepositoryTests()
+        public DownloadTests()
             : base()
         {
         }
 
-        [Test]
         [Category("Happy Path")]
+        [Test]
         public void CanGetTheBucket()
         {
             // Arrange
@@ -25,99 +25,10 @@ namespace Mongo.FileStorage.Tests.Repositories
             Assert.That(bucket.Options.BucketName, Is.EqualTo(TestConstants.BucketName));
             Assert.That(bucket.Options.ChunkSizeBytes, Is.EqualTo(TestConstants.ChunkSizeBytes));
         }
-        
-        [Test]
+
         [Category("Happy Path")]
-        public async Task CanUploadAFileAsync()
-        {
-            // Arrange
-            var fileName = $"{this.RandomString(5)}.jpg";
-            
-            // Act
-            var fileId = await this.CreateAndUploadFileAsync(fileName);
-
-            // Assert
-            Assert.That(fileId, Is.InstanceOf<ObjectId>());
-            Assert.That(fileId.Timestamp, Is.GreaterThan(0));
-        }
-
         [TestCase("by Id")]
         [TestCase("by Name")]
-        [Category("Happy Path")]
-        public async Task CanDownloadAFileByIdOrNameAsStreamAsync(string option)
-        {
-            // Arrange
-            var fileName = $"{this.RandomString(5)}.jpg";
-            var fileId = await this.CreateAndUploadFileAsync(fileName);
-            
-            // Act
-            var file = await this.FilesRepository.DownloadAsStreamAsync(
-                option == "by Id"
-                    ? fileId.ToString()
-                    : fileName
-            );
-
-            // Assert
-            Assert.That(file, Is.Not.Null);
-            Assert.That(file.Length, Is.EqualTo(10992));
-        }
-
-        [Test]
-        [Category("Happy Path")]
-        public async Task CanDownloadAFileByObjectIdAsStreamAsync()
-        {
-            // Arrange
-            var fileName = $"{this.RandomString(5)}.jpg";
-            var fileId = await this.CreateAndUploadFileAsync(fileName);
-            
-            // Act
-            var file = await this.FilesRepository.DownloadAsStreamAsync(fileId);
-
-            // Assert
-            Assert.That(file, Is.Not.Null);
-            Assert.That(file.Length, Is.EqualTo(10992));
-        }
-
-        [TestCase("by Id")]
-        [TestCase("by Name")]
-        [Category("Happy Path")]
-        public async Task CanDownloadAFileByIdOrNameAsByteArrayAsync(string option)
-        {
-            // Arrange
-            var fileName = $"{this.RandomString(5)}.jpg";
-            var fileId = await this.CreateAndUploadFileAsync(fileName);
-            
-            // Act
-            var file = await this.FilesRepository.DownloadAsByteArrayAsync(
-                option == "by Id"
-                    ? fileId.ToString()
-                    : fileName
-            );
-
-            // Assert
-            Assert.That(file, Is.Not.Null);
-            Assert.That(file.Length, Is.EqualTo(10992));
-        }
-
-        [Test]
-        [Category("Happy Path")]
-        public async Task CanDownloadAFileByObjectIdAsByteArrayAsync()
-        {
-            // Arrange
-            var fileName = $"{this.RandomString(5)}.jpg";
-            var fileId = await this.CreateAndUploadFileAsync(fileName);
-            
-            // Act
-            var file = await this.FilesRepository.DownloadAsByteArrayAsync(fileId);
-
-            // Assert
-            Assert.That(file, Is.Not.Null);
-            Assert.That(file.Length, Is.EqualTo(10992));
-        }
-
-        [TestCase("by Id")]
-        [TestCase("by Name")]
-        [Category("Happy Path")]
         public async Task CanGetAFileInfoByIdOrNameAsync(string option)
         {
             // Arrange
@@ -138,8 +49,8 @@ namespace Mongo.FileStorage.Tests.Repositories
             Assert.That(file.Filename, Is.EqualTo(fileName));
         }
 
-        [Test]
         [Category("Happy Path")]
+        [Test]
         public async Task CanGetAFileInfoByObjectIdAsync()
         {
             // Arrange
@@ -155,36 +66,84 @@ namespace Mongo.FileStorage.Tests.Repositories
             Assert.That(file.Id, Is.EqualTo(fileId));
             Assert.That(file.Filename, Is.EqualTo(fileName));
         }
-
-        [TestCase("ObjectId")]
-        [TestCase("string")]
+        
         [Category("Happy Path")]
-        public async Task CanDeleteAFileByIdAsync(string type)
+        [TestCase("by Id")]
+        [TestCase("by Name")]
+        public async Task CanDownloadAFileByIdOrNameAsStreamAsync(string option)
         {
             // Arrange
             var fileName = $"{this.RandomString(5)}.jpg";
             var fileId = await this.CreateAndUploadFileAsync(fileName);
-
+            
             // Act
-            switch (type)
-            {
-                case "string":
-                    await this.FilesRepository.DeleteAsync(fileId.ToString());
-                    break;
-                default:
-                    await this.FilesRepository.DeleteAsync(fileId);
-                    break;
-            }
+            var file = await this.FilesRepository.DownloadAsStreamAsync(
+                option == "by Id"
+                    ? fileId.ToString()
+                    : fileName
+            );
 
             // Assert
-            Assert.ThrowsAsync<GridFSFileNotFoundException>(async () =>
-                await this.FilesRepository.DownloadAsStreamAsync(fileId.ToString())
-            );
+            Assert.That(file, Is.Not.Null);
+            Assert.That(file.Length, Is.EqualTo(10992));
         }
 
+        [Category("Happy Path")]
+        [Test]
+        public async Task CanDownloadAFileByObjectIdAsStreamAsync()
+        {
+            // Arrange
+            var fileName = $"{this.RandomString(5)}.jpg";
+            var fileId = await this.CreateAndUploadFileAsync(fileName);
+            
+            // Act
+            var file = await this.FilesRepository.DownloadAsStreamAsync(fileId);
+
+            // Assert
+            Assert.That(file, Is.Not.Null);
+            Assert.That(file.Length, Is.EqualTo(10992));
+        }
+
+        [Category("Happy Path")]
         [TestCase("by Id")]
         [TestCase("by Name")]
+        public async Task CanDownloadAFileByIdOrNameAsByteArrayAsync(string option)
+        {
+            // Arrange
+            var fileName = $"{this.RandomString(5)}.jpg";
+            var fileId = await this.CreateAndUploadFileAsync(fileName);
+            
+            // Act
+            var file = await this.FilesRepository.DownloadAsByteArrayAsync(
+                option == "by Id"
+                    ? fileId.ToString()
+                    : fileName
+            );
+
+            // Assert
+            Assert.That(file, Is.Not.Null);
+            Assert.That(file.Length, Is.EqualTo(10992));
+        }
+
+        [Category("Happy Path")]
+        [Test]
+        public async Task CanDownloadAFileByObjectIdAsByteArrayAsync()
+        {
+            // Arrange
+            var fileName = $"{this.RandomString(5)}.jpg";
+            var fileId = await this.CreateAndUploadFileAsync(fileName);
+            
+            // Act
+            var file = await this.FilesRepository.DownloadAsByteArrayAsync(fileId);
+
+            // Assert
+            Assert.That(file, Is.Not.Null);
+            Assert.That(file.Length, Is.EqualTo(10992));
+        }
+
         [Category("Unhappy Path")]
+        [TestCase("by Id")]
+        [TestCase("by Name")]
         public void CannotDownloadAsStreamAnUnexistingFile(string option)
         {
             // Arrange
@@ -199,9 +158,9 @@ namespace Mongo.FileStorage.Tests.Repositories
             );
         }
 
+        [Category("Unhappy Path")]
         [TestCase("by Id")]
         [TestCase("by Name")]
-        [Category("Unhappy Path")]
         public void CannotDownloadAsByteArrayAnUnexistingFile(string option)
         {
             // Arrange
@@ -213,31 +172,6 @@ namespace Mongo.FileStorage.Tests.Repositories
                         ? ObjectId.GenerateNewId().ToString()
                         : "unexisting-file.txt"
                 )
-            );
-        }
-
-        [Test]
-        [Category("Unhappy Path")]
-        public void CannotDeleteByInvalidId()
-        {
-            // Arrange
-            // Act
-            // Assert
-            var ex = Assert.ThrowsAsync<ArgumentException>(async () =>
-                await this.FilesRepository.DeleteAsync("foo")
-            );
-            Assert.That(ex?.Message, Is.EqualTo($"'foo' is not a valid ObjectId"));
-        }
-
-        [Test]
-        [Category("Unhappy Path")]
-        public void CannotDeleteByUnexistingId()
-        {
-            // Arrange
-            // Act
-            // Assert
-            Assert.ThrowsAsync<GridFSFileNotFoundException>(async () =>
-                await this.FilesRepository.DeleteAsync(ObjectId.GenerateNewId())
             );
         }
     }

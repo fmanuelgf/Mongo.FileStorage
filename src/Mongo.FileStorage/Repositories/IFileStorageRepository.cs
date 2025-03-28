@@ -70,5 +70,29 @@ namespace Mongo.FileStorage.Repositories
         /// </summary>
         /// <param name="fileId">The ID or the Name of the stored file to be deleted.</param>
         Task DeleteAsync(string fileId);
+
+        /// <summary>
+        /// Delete a collection of stored files
+        /// </summary>
+        /// <param name="fileIds">The array of IDs of the stored files to be deleted.</param>
+        Task DeleteAsync(ObjectId[] fileIds);
+
+        /// <summary>
+        /// Delete a collection of stored files
+        /// </summary>
+        /// <param name="fileIds">The array of IDs of the stored files to be deleted.</param>
+        Task DeleteAsync(IList<ObjectId> fileIds);
+        
+        /// <summary>
+        /// Delete a collection of stored files
+        /// </summary>
+        /// <param name="fileIds">The array of ID or Names of the stored files to be deleted.</param>
+        Task DeleteAsync(string[] fileIds);
+
+        /// <summary>
+        /// Delete a collection of stored files
+        /// </summary>
+        /// <param name="fileIds">The array of ID or Names of the stored files to be deleted.</param>
+        Task DeleteAsync(IList<string> fileIds);
     }
 }

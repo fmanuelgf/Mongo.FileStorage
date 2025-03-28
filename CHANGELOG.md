@@ -1,5 +1,9 @@
 # Mongo.FileStorage
 
+## Release 9.0.2
+
+- Add methods to delete a file array
+
 ## Release 9.0.1
 
 - Update nuget packages
@@ -18,8 +22,8 @@
 
 ## Release 8.1.7
 
-- Add the property `Bucket` to `IFileStorageRepository`.
-- Make the repository methods `virtual` so that they can be overridden in derived classes.
+- Add the property `Bucket` to `IFileStorageRepository`
+- Make the repository methods `virtual` so that they can be overridden in derived classes
 
 ## Release 8.1.6
 

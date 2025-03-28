@@ -107,5 +107,43 @@
             
             await this.Bucket.DeleteAsync(objectId);
         }
+
+        /// <inheritdoc />
+        public virtual async Task DeleteAsync(ObjectId[] fileIds)
+        {
+            await this.DeleteAsync(fileIds.ToList());
+        }
+
+        /// <inheritdoc />
+        public virtual async Task DeleteAsync(IList<ObjectId> fileIds)
+        {
+            foreach (var fileId in fileIds)
+            {
+                await this.Bucket.DeleteAsync(fileId);
+            }
+        }
+
+        /// <inheritdoc />
+        public virtual async Task DeleteAsync(string[] fileIds)
+        {
+            await this.DeleteAsync(fileIds.ToList());
+        }
+
+        /// <inheritdoc />
+        public virtual async Task DeleteAsync(IList<string> fileIds)
+        {
+            var objectIds = new List<ObjectId>();
+            foreach (var fileId in fileIds)
+            {
+                if (!ObjectId.TryParse(fileId, out var objectId))
+                {
+                    throw new ArgumentException($"'{fileId}' is not a valid ObjectId");
+                }
+
+                objectIds.Add(objectId);
+            }
+            
+            await this.DeleteAsync(objectIds.ToArray());
+        }
     }
 }

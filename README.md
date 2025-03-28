@@ -41,6 +41,14 @@ namespace Mongo.FileStorage.Repositories
         Task DeleteAsync(ObjectId fileId);
         
         Task DeleteAsync(string fileId);
+
+        Task DeleteAsync(ObjectId[] fileIds);
+        
+        Task DeleteAsync(IList<ObjectId> fileIds);
+
+        Task DeleteAsync(string[] fileIds);
+        
+        Task DeleteAsync(IList<string> fileIds);
     }
 }
 ```
