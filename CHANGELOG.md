@@ -1,5 +1,10 @@
 # Mongo.FileStorage
 
+## Release 9.0.3
+
+- Add custon read/write GridFS options
+- Update nuget packages
+
 ## Release 9.0.2
 
 - Add methods to delete a file array

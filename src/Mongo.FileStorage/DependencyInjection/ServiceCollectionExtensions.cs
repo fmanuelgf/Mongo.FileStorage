@@ -2,6 +2,8 @@ namespace Mongo.FileStorage.DependencyInjection
 {
     using Microsoft.Extensions.DependencyInjection;
     using Mongo.FileStorage.Repositories;
+    using MongoDB.Driver;
+    using MongoDB.Driver.GridFS;
 
     public static class ServiceCollectionExtensions
     {
@@ -9,20 +11,31 @@ namespace Mongo.FileStorage.DependencyInjection
         /// Register the IFileStorageRepository and its implementation.
         /// </summary>
         /// <param name="registerMode">The <see cref="RegisterMode"> (Transient, Scoped, Singleton).</param>
-        public static void RegisterFileStorageRepository(this IServiceCollection services, RegisterMode registerMode)
+        /// <param name="readConcern">The <see cref="ReadConcern"> or its default value.</param>
+        /// <param name="readPreference">The <see cref="ReadPreference"> or its default value.</param>
+        /// <param name="writeConcern">The <see cref="WriteConcern"> or its default value.</param>
+        public static void RegisterFileStorageRepository(
+            this IServiceCollection services,
+            RegisterMode registerMode,
+            ReadConcern? readConcern = default,
+            ReadPreference? readPreference = default,
+            WriteConcern? writeConcern = default)
         {
             switch (registerMode)
             {
                 case RegisterMode.Scoped:
-                    services.AddScoped<IFileStorageRepository, FileStorageRepository>();
+                    services.AddScoped<IFileStorageRepository, FileStorageRepository>(
+                        x => new FileStorageRepository(readConcern, readPreference, writeConcern));
                     break;
                 
                 case RegisterMode.Singleton:
-                    services.AddSingleton<IFileStorageRepository, FileStorageRepository>();
+                    services.AddSingleton<IFileStorageRepository, FileStorageRepository>(
+                        x => new FileStorageRepository(readConcern, readPreference, writeConcern));
                     break;
 
                 default:
-                    services.AddTransient<IFileStorageRepository, FileStorageRepository>();
+                    services.AddTransient<IFileStorageRepository, FileStorageRepository>(
+                        x => new FileStorageRepository(readConcern, readPreference, writeConcern));
                     break;
             }
         }

@@ -8,8 +8,11 @@
     public class FileStorageRepository : IFileStorageRepository
     {
         public GridFSBucket Bucket { get; }
-        
-        public FileStorageRepository()
+
+        public FileStorageRepository(
+            ReadConcern? readConcern = default,
+            ReadPreference? readPreference = default,
+            WriteConcern? writeConcern = default)
         {
             var client = new MongoClient(AppConfig.ConnectionString);
             var database = client.GetDatabase(AppConfig.DatabaseName);
@@ -18,6 +21,19 @@
                 BucketName = AppConfig.BucketName,
                 ChunkSizeBytes = AppConfig.ChunkSizeBytes
             };
+
+            if (readConcern != null)
+            {
+                options.ReadConcern = readConcern;
+            }
+            if (readPreference != null)
+            {
+                options.ReadPreference = readPreference;
+            }
+            if (writeConcern != null)
+            {
+                options.WriteConcern = writeConcern;
+            }
             
             this.Bucket = new GridFSBucket(database, options);
         }

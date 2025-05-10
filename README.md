@@ -62,7 +62,15 @@ using Mongo.FileStorage.DependencyInjection;
 
 ...
 
+// Using the default configuration (see `Required environment variables`)
 services.RegisterFileStorageRepository(RegisterMode.Transient);
+
+// Using the default configuration plus custom read/write options
+this.services.RegisterFileStorageRepository(
+    RegisterMode.Transient,
+    ReadConcern.Default,
+    ReadPreference.Primary,
+    WriteConcern.WMajority);
 ````
 
 To upload a file

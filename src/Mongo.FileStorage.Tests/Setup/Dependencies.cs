@@ -3,6 +3,7 @@ namespace Mongo.FileStorage.Tests.Setup
     using System;
     using Microsoft.Extensions.DependencyInjection;
     using Mongo.FileStorage.DependencyInjection;
+    using MongoDB.Driver;
 
     internal class Dependencies
     {
@@ -12,7 +13,12 @@ namespace Mongo.FileStorage.Tests.Setup
         internal Dependencies()
         {
             this.services = new ServiceCollection();
-            this.services.RegisterFileStorageRepository(RegisterMode.Singleton);
+
+            this.services.RegisterFileStorageRepository(
+                RegisterMode.Singleton,
+                ReadConcern.Default,
+                ReadPreference.Primary,
+                WriteConcern.WMajority);
 
             this.provider = this.services.BuildServiceProvider();
         }
