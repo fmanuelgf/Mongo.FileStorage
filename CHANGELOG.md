@@ -1,5 +1,9 @@
 # Mongo.FileStorage
 
+## Release 9.0.4
+
+- Update nuget packages
+
 ## Release 9.0.3
 
 - Add custon read/write GridFS options
