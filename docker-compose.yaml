@@ -1,6 +1,8 @@
+name: mongo-filestorage
 services:
 
   mongo:
+    container_name: mongo-db
     image: mongo:latest
     ports:
       - '27017:27017'
@@ -10,6 +12,7 @@ services:
       MONGO_INITDB_ROOT_PASSWORD: root
 
   mongo-express:
+    container_name: mongo-express
     image: mongo-express:latest
     restart: always
     ports:
