@@ -3,7 +3,6 @@ namespace Mongo.FileStorage.DependencyInjection
     using Microsoft.Extensions.DependencyInjection;
     using Mongo.FileStorage.Repositories;
     using MongoDB.Driver;
-    using MongoDB.Driver.GridFS;
 
     public static class ServiceCollectionExtensions
     {
