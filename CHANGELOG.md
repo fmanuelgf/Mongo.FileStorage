@@ -1,5 +1,9 @@
 # Mongo.FileStorage
 
+## Release 10.0.0
+
+- Upgrade to dotnet 10
+
 ## Release 9.0.4
 
 - Update nuget packages
