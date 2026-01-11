@@ -7,6 +7,7 @@
 
     public class FileStorageRepository : IFileStorageRepository
     {
+        /// <inheritdoc />
         public GridFSBucket Bucket { get; }
 
         public FileStorageRepository(
