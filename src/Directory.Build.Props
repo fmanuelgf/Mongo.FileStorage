@@ -2,13 +2,13 @@
   <!-- See https://aka.ms/dotnet/msbuild/customize for more details on customizing your build -->
   <PropertyGroup>
     <Target-Framework-Version>net10.0</Target-Framework-Version>
-    <Package-Version>10.0.0</Package-Version>
-    <MongoDB-Driver>3.5.*</MongoDB-Driver>
-    <Coverlet-Collector>6.0.*</Coverlet-Collector>
-    <Microsoft-NET-Test-Sdk>18.0.*</Microsoft-NET-Test-Sdk>
+    <Package-Version>10.0.1</Package-Version>
+    <MongoDB-Driver>3.6.*</MongoDB-Driver>
+    <Coverlet-Collector>8.0.*</Coverlet-Collector>
+    <Microsoft-NET-Test-Sdk>18.3.*</Microsoft-NET-Test-Sdk>
     <Microsoft-Extensions-DependencyInjection>10.0.*</Microsoft-Extensions-DependencyInjection>
-    <NUnit>4.4.*</NUnit>
+    <NUnit>4.5.*</NUnit>
     <NUnit-Analyzers>4.11.*</NUnit-Analyzers>
-    <NUnit3TestAdapter>5.2.*</NUnit3TestAdapter>
+    <NUnit3TestAdapter>6.1.*</NUnit3TestAdapter>
   </PropertyGroup>
 </Project>
