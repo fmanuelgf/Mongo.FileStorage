@@ -1,5 +1,10 @@
 # Mongo.FileStorage
 
+## Release 10.1.0
+
+- Add mehod `RenameAsync`
+- Update nuget packages
+
 ## Release 10.0.1
 
 - Update nuget packages

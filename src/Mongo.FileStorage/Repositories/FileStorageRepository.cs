@@ -109,6 +109,23 @@
         }
 
         /// <inheritdoc />
+        public virtual Task RenameAsync(ObjectId fileId, string newFileName)
+        {
+            return this.Bucket.RenameAsync(fileId, newFileName);
+        }
+
+        /// <inheritdoc />
+        public virtual Task RenameAsync(string fileId, string newFileName)
+        {
+            if (!ObjectId.TryParse(fileId, out var objectId))
+            {
+                throw new ArgumentException($"'{fileId}' is not a valid ObjectId");
+            }
+            
+            return this.Bucket.RenameAsync(objectId, newFileName);
+        }
+
+        /// <inheritdoc />
         public virtual async Task DeleteAsync(ObjectId fileId)
         {
             await this.Bucket.DeleteAsync(fileId);
@@ -121,7 +138,7 @@
             {
                 throw new ArgumentException($"'{fileId}' is not a valid ObjectId");
             }
-            
+
             await this.Bucket.DeleteAsync(objectId);
         }
 

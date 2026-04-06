@@ -60,6 +60,20 @@ namespace Mongo.FileStorage.Repositories
         Task<GridFSFileInfo<ObjectId>> GetFileInfoAsync(string idOrName);
 
         /// <summary>
+        /// Rename a stored file.
+        /// </summary>
+        /// <param name="fileId">The ID of the stored file.</param>
+        /// <param name="newFileName">The new file name.</param>
+        Task RenameAsync(ObjectId fileId, string newFileName);
+
+        /// <summary>
+        /// Rename a stored file.
+        /// </summary>
+        /// <param name="fileId">The ID of the stored file.</param>
+        /// <param name="newFileName">The new file name.</param>
+        Task RenameAsync(string fileId, string newFileName);
+
+        /// <summary>
         /// Delete a stored file
         /// </summary>
         /// <param name="fileId">The ID of the stored file to be deleted.</param>
