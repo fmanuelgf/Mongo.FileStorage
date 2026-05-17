@@ -2,7 +2,7 @@
   <!-- See https://aka.ms/dotnet/msbuild/customize for more details on customizing your build -->
   <PropertyGroup>
     <Target-Framework-Version>net10.0</Target-Framework-Version>
-    <Package-Version>10.1.0</Package-Version>
+    <Package-Version>10.1.1</Package-Version>
     <MongoDB-Driver>3.8.*</MongoDB-Driver>
     <Coverlet-Collector>10.0.*</Coverlet-Collector>
     <Microsoft-NET-Test-Sdk>18.5.*</Microsoft-NET-Test-Sdk>
