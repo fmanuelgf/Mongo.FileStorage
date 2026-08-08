@@ -11,7 +11,7 @@
     <Authors>Francisco González</Authors>
     <Version>$(Package-Version)</Version>
     <Description>
-      Library to store files in MongoDB.
+      Library to store files in MongoDB
     </Description>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>

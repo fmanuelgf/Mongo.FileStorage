@@ -1,6 +1,6 @@
 # Mongo.FileStorage
 
-Library to store files using [MongoDB](https://www.Mongo.com)
+Library to store files in [MongoDB](https://www.Mongo.com)
 
 ## Required environment variables
 
