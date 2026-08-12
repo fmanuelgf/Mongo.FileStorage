@@ -24,6 +24,10 @@ namespace Mongo.FileStorage.Repositories
     {
         GridFSBucket Bucket { get; }
 
+        Task<GridFSFileInfo<ObjectId>> GetFileInfoAsync(ObjectId fileId);
+        
+        Task<GridFSFileInfo<ObjectId>> GetFileInfoAsync(string idOrName);
+
         Task<ObjectId> UploadAsync(FileStream fileStream);
 
         Task<MemoryStream> DownloadAsStreamAsync(ObjectId fileId);
@@ -34,10 +38,6 @@ namespace Mongo.FileStorage.Repositories
         
         Task<byte[]> DownloadAsByteArrayAsync(string idOrName);
         
-        Task<GridFSFileInfo<ObjectId>> GetFileInfoAsync(ObjectId fileId);
-        
-        Task<GridFSFileInfo<ObjectId>> GetFileInfoAsync(string idOrName);
-
         Task RenameAsync(ObjectId fileId);
         
         Task RenameAsync(string fileId);

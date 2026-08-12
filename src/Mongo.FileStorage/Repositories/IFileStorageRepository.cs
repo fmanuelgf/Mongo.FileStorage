@@ -11,6 +11,20 @@ namespace Mongo.FileStorage.Repositories
         GridFSBucket Bucket { get; }
 
         /// <summary>
+        /// Get the <see cref="GridFSFileInfo"/> of the given file.
+        /// </summary>
+        /// <param name="fileId">The ID of the stored file.</param>
+        /// <returns>The <see cref="GridFSFileInfo"/>.</returns>
+        Task<GridFSFileInfo<ObjectId>> GetFileInfoAsync(ObjectId fileId);
+
+        /// <summary>
+        /// Get the <see cref="GridFSFileInfo"/> of the given file.
+        /// </summary>
+        /// <param name="idOrName">The ID or the Name of the stored file.</param>
+        /// <returns>The <see cref="GridFSFileInfo"/>.</returns>
+        Task<GridFSFileInfo<ObjectId>> GetFileInfoAsync(string idOrName);
+
+        /// <summary>
         /// Store a file in the database.
         /// </summary>
         /// <param name="fileStream">The <see cref="FileStream"/> to store.</param>
@@ -44,20 +58,6 @@ namespace Mongo.FileStorage.Repositories
         /// <param name="idOrName">The ID or the Name of the stored file to be downloaded.</param>
         /// <returns>The <see cref="byte"/> array.</returns>
         Task<byte[]> DownloadAsByteArrayAsync(string idOrName);
-
-        /// <summary>
-        /// Get the <see cref="GridFSFileInfo"/> of the given file.
-        /// </summary>
-        /// <param name="fileId">The ID of the stored file.</param>
-        /// <returns>The <see cref="GridFSFileInfo"/>.</returns>
-        Task<GridFSFileInfo<ObjectId>> GetFileInfoAsync(ObjectId fileId);
-
-        /// <summary>
-        /// Get the <see cref="GridFSFileInfo"/> of the given file.
-        /// </summary>
-        /// <param name="idOrName">The ID or the Name of the stored file.</param>
-        /// <returns>The <see cref="GridFSFileInfo"/>.</returns>
-        Task<GridFSFileInfo<ObjectId>> GetFileInfoAsync(string idOrName);
 
         /// <summary>
         /// Rename a stored file.

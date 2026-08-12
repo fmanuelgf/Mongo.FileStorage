@@ -40,6 +40,29 @@
         }
 
         /// <inheritdoc />
+        public virtual async Task<GridFSFileInfo<ObjectId>> GetFileInfoAsync(ObjectId fileId)
+        {
+            var filter = Builders<GridFSFileInfo<ObjectId>>.Filter.Eq(x => x.Id, fileId);
+            var cursor = await this.Bucket.FindAsync(filter);
+            
+            return cursor.FirstOrDefault();
+        }
+
+        /// <inheritdoc />
+        public virtual async Task<GridFSFileInfo<ObjectId>> GetFileInfoAsync(string idOrName)
+        {
+            if (ObjectId.TryParse(idOrName, out var fileId))
+            {
+                return await this.GetFileInfoAsync(fileId);
+            }
+
+            var filter = Builders<GridFSFileInfo<ObjectId>>.Filter.Eq(x => x.Filename, idOrName);
+            var cursor = await this.Bucket.FindAsync(filter);
+            
+            return cursor.FirstOrDefault();
+        }
+
+        /// <inheritdoc />
         public virtual async Task<ObjectId> UploadAsync(FileStream fileStream)
         {
             var fileName = Path.GetFileName(fileStream.Name);
@@ -83,29 +106,6 @@
             return ObjectId.TryParse(idOrName, out var fileId)
                 ? await this.DownloadAsByteArrayAsync(fileId)
                 : await this.Bucket.DownloadAsBytesByNameAsync(idOrName);
-        }
-
-        /// <inheritdoc />
-        public virtual async Task<GridFSFileInfo<ObjectId>> GetFileInfoAsync(ObjectId fileId)
-        {
-            var filter = Builders<GridFSFileInfo<ObjectId>>.Filter.Eq(x => x.Id, fileId);
-            var cursor = await this.Bucket.FindAsync(filter);
-            
-            return cursor.FirstOrDefault();
-        }
-
-        /// <inheritdoc />
-        public virtual async Task<GridFSFileInfo<ObjectId>> GetFileInfoAsync(string idOrName)
-        {
-            if (ObjectId.TryParse(idOrName, out var fileId))
-            {
-                return await this.GetFileInfoAsync(fileId);
-            }
-
-            var filter = Builders<GridFSFileInfo<ObjectId>>.Filter.Eq(x => x.Filename, idOrName);
-            var cursor = await this.Bucket.FindAsync(filter);
-            
-            return cursor.FirstOrDefault();
         }
 
         /// <inheritdoc />
