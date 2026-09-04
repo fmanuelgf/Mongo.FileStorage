@@ -26,7 +26,7 @@ namespace Mongo.FileStorage.Tests.Repositories.Base
         protected async Task<ObjectId> CreateAndUploadFileAsync(string fileName)
         {
             var filePath = $"TestFiles/{fileName}";
-            File.Copy($"TestFiles/Robby-Robot.jpg", filePath);
+            File.Copy($"TestFiles/Robby-the-Robot.jpg", filePath);
             
             var fs = File.OpenRead(filePath);
             var fileId = await this.FilesRepository.UploadAsync(fs);
