@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="Mongo.FileStorage/Mongo.FileStorage.csproj" />
+  <Project Path="Mongo.FileStorage.Tests/Mongo.FileStorage.Tests.csproj" />
+</Solution>
