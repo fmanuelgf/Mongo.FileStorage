@@ -144,12 +144,12 @@ namespace Mongo.FileStorage.Tests.Repositories.FileStorageRepository
         [Category("Unhappy Path")]
         [TestCase("by Id")]
         [TestCase("by Name")]
-        public void CannotDownloadAsStreamAnUnexistingFile(string option)
+        public async Task CannotDownloadAsStreamAnUnexistingFileAsync(string option)
         {
             // Arrange
             // Act
             // Assert
-            Assert.ThrowsAsync<GridFSFileNotFoundException>(async () =>
+            await Assert.ThrowsAsync<GridFSFileNotFoundException>(async () =>
                 await this.FilesRepository.DownloadAsStreamAsync(
                     option == "by Id"
                         ? ObjectId.GenerateNewId().ToString()
@@ -161,12 +161,12 @@ namespace Mongo.FileStorage.Tests.Repositories.FileStorageRepository
         [Category("Unhappy Path")]
         [TestCase("by Id")]
         [TestCase("by Name")]
-        public void CannotDownloadAsByteArrayAnUnexistingFile(string option)
+        public async Task CannotDownloadAsByteArrayAnUnexistingFileAsync(string option)
         {
             // Arrange
             // Act
             // Assert
-            Assert.ThrowsAsync<GridFSFileNotFoundException>(async () =>
+            await Assert.ThrowsAsync<GridFSFileNotFoundException>(async () =>
                 await this.FilesRepository.DownloadAsByteArrayAsync(
                     option == "by Id"
                         ? ObjectId.GenerateNewId().ToString()

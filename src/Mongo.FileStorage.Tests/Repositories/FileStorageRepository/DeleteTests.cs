@@ -32,7 +32,7 @@ namespace Mongo.FileStorage.Tests.Repositories.FileStorageRepository
             }
 
             // Assert
-            Assert.ThrowsAsync<GridFSFileNotFoundException>(async () =>
+            await Assert.ThrowsAsync<GridFSFileNotFoundException>(async () =>
                 await this.FilesRepository.DownloadAsStreamAsync(fileId.ToString())
             );
         }
@@ -76,7 +76,7 @@ namespace Mongo.FileStorage.Tests.Repositories.FileStorageRepository
             // Assert
             foreach (var fileId in fileIds)
             {
-                Assert.ThrowsAsync<GridFSFileNotFoundException>(async () =>
+                await Assert.ThrowsAsync<GridFSFileNotFoundException>(async () =>
                     await this.FilesRepository.DownloadAsStreamAsync(fileId)
                 );
             }
@@ -84,12 +84,12 @@ namespace Mongo.FileStorage.Tests.Repositories.FileStorageRepository
 
         [Category("Unhappy Path")]
         [Test]
-        public void CannotDeleteByInvalidId()
+        public async Task CannotDeleteByInvalidIdAsync()
         {
             // Arrange
             // Act
             // Assert
-            var ex = Assert.ThrowsAsync<ArgumentException>(async () =>
+            var ex = await Assert.ThrowsAsync<ArgumentException>(async () =>
                 await this.FilesRepository.DeleteAsync("foo")
             );
             Assert.That(ex?.Message, Is.EqualTo($"'foo' is not a valid ObjectId"));
@@ -97,12 +97,12 @@ namespace Mongo.FileStorage.Tests.Repositories.FileStorageRepository
 
         [Category("Unhappy Path")]
         [Test]
-        public void CannotDeleteByUnexistingId()
+        public async Task CannotDeleteByUnexistingIdAsync()
         {
             // Arrange
             // Act
             // Assert
-            Assert.ThrowsAsync<GridFSFileNotFoundException>(async () =>
+            await Assert.ThrowsAsync<GridFSFileNotFoundException>(async () =>
                 await this.FilesRepository.DeleteAsync(ObjectId.GenerateNewId())
             );
         }
@@ -110,7 +110,7 @@ namespace Mongo.FileStorage.Tests.Repositories.FileStorageRepository
         [Category("Unhappy Path")]
         [TestCase("As Array")]
         [TestCase("As List")]
-        public void CannotDeleteAnArrayByUnexistingId(string type)
+        public async Task CannotDeleteAnArrayByUnexistingIdAsync(string type)
         {
             // Arrange
             var fileIds = new List<ObjectId>
@@ -121,7 +121,7 @@ namespace Mongo.FileStorage.Tests.Repositories.FileStorageRepository
             
             // Act
             // Assert
-            Assert.ThrowsAsync<GridFSFileNotFoundException>(async () =>
+            await Assert.ThrowsAsync<GridFSFileNotFoundException>(async () =>
                 await this.FilesRepository.DeleteAsync(type == "As Array"
                     ? fileIds.ToArray()
                     : fileIds)

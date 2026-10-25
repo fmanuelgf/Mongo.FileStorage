@@ -40,12 +40,12 @@ namespace Mongo.FileStorage.Tests.Repositories.FileStorageRepository
 
         [Category("Unhappy Path")]
         [Test]
-        public void CannotRenameByInvalidId()
+        public async Task CannotRenameByInvalidIdAsync()
         {
             // Arrange
             // Act
             // Assert
-            var ex = Assert.ThrowsAsync<ArgumentException>(async () =>
+            var ex = await Assert.ThrowsAsync<ArgumentException>(async () =>
                 await this.FilesRepository.RenameAsync("foo", "newFileName.jpg")
             );
             Assert.That(ex?.Message, Is.EqualTo($"'foo' is not a valid ObjectId"));
@@ -53,12 +53,12 @@ namespace Mongo.FileStorage.Tests.Repositories.FileStorageRepository
 
         [Category("Unhappy Path")]
         [Test]
-        public void CannotRenameByUnexistingId()
+        public async Task CannotRenameByUnexistingIdAsync()
         {
             // Arrange
             // Act
             // Assert
-            Assert.ThrowsAsync<GridFSFileNotFoundException>(async () =>
+            await Assert.ThrowsAsync<GridFSFileNotFoundException>(async () =>
                 await this.FilesRepository.RenameAsync(ObjectId.GenerateNewId(), "newFileName.jpg")
             );
         }
